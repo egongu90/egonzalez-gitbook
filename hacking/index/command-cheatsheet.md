@@ -446,6 +446,13 @@ Crack passwords
 john --rules --wordlist=/usr/share/wordlists/rockyou.txt unshadow_pass.txt
 ```
 
+Crack SSH key passphrase
+
+```text
+/usr/share/john/ssh2john.py id_rsa > id_rsa.hash
+john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa.hash 
+```
+
 ### hashcat
 
 Crack linux passwords
