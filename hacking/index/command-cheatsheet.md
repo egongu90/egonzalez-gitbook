@@ -524,6 +524,24 @@ hydra -L usernames.txt -P passwords.txt <IP>  <MODE> "<PATH>:Action=<HTTP_QUERY>
 hydra -L usernames -P output 10.11.12.13  http-post-form "/otrs/index.pl:Action=Login&RequestedURL=&Lang=en&TimeOffset=300&User=^USER^&Password=^PASS^:F=Login"
 ```
 
+## Fuzzing
+
+### ffuz
+
+Silent fuzzing
+
+```text
+ffuf -s -r -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u http://10.10.10.168:8080/FUZZ
+```
+
+### Whatweb
+
+```text
+$ whatweb http://10.10.10.168:8080   
+http://10.10.10.168:8080 [200 OK] Country[RESERVED][ZZ], Email[secure@obscure.htb], HTML5, HTTPServer[BadHTTPServer], IP[10.10.10.168], JQuery, Script, Title[0bscura], X-UA-Compatible[IE=Edge]
+
+```
+
 ## Windows commands
 
 Create admin user with RDP
