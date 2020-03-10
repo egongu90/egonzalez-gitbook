@@ -453,6 +453,12 @@ Crack SSH key passphrase
 john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa.hash 
 ```
 
+Mutate cewl dictionary
+
+```text
+john --wordlist=cewl_words.txt --rules --stdout > mutated_words
+```
+
 ### hashcat
 
 Crack linux passwords
