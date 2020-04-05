@@ -2,7 +2,7 @@
 description: Hacking command list
 ---
 
-# Command cheatsheet
+# Hacking cheatsheet
 
 ### Netcat
 

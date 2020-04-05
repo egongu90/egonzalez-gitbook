@@ -5,7 +5,12 @@
 ## Hacking
 
 * [Index](hacking/index/README.md)
-  * [Command cheatsheet](hacking/index/command-cheatsheet.md)
+  * [Python Vulnerabilities](hacking/index/python-vulnerabilities/README.md)
+    * [Data Deserialization](hacking/index/python-vulnerabilities/data-deserialization/README.md)
+      * [Pickle](hacking/index/python-vulnerabilities/data-deserialization/pickle.md)
+      * [XML](hacking/index/python-vulnerabilities/data-deserialization/xml.md)
+      * [YAML](hacking/index/python-vulnerabilities/data-deserialization/yaml.md)
+  * [Hacking cheatsheet](hacking/index/command-cheatsheet.md)
 
 ## OpenStack
 
