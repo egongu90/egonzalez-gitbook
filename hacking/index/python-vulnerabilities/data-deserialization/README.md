@@ -20,6 +20,12 @@ Some of the most common data structure formats used are:
 
 If the data format and the development methods used are able to evaluate python code from the data, an attacker may be able to inject it's python object and execute it in the backend service. Possibly allowing remote shells or information disclosure.
 
+{% page-ref page="pickle.md" %}
+
+{% page-ref page="yaml.md" %}
+
+{% page-ref page="xml.md" %}
+
 
 
 
