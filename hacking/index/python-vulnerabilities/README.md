@@ -22,6 +22,8 @@ Once in the main page, browse through the menu and try to get the flag at `/root
 
 Other command and files can also be executed, just be careful if mount other volumes in the container.
 
+Server source code: [https://github.com/xNaaro/vulnerable\_python](https://github.com/xNaaro/vulnerable_python)
+
 Happy hacking and fixing vulnerabilities ;\)
 
 
