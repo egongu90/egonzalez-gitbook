@@ -2,6 +2,10 @@
 
 This section will explain what vulnerabilities are common in python developments, how to exploit and fix them.
 
+{% page-ref page="data-deserialization/" %}
+
+
+
 ## Vulnerable server
 
 For the purpose of learning all this vulnerabilities I've create a vulnerable server that will allow practice and execution of the provided examples, but is better if try to break by yourself googling for information about the technologies or the bugs.
