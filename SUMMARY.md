@@ -5,6 +5,8 @@
 ## Hacking
 
 * [Index](hacking/index/README.md)
+  * [Hack the box writeups](hacking/index/hack-the-box-writeups/README.md)
+    * [Sauna HTB writeup](hacking/index/hack-the-box-writeups/sauna.md)
   * [Python Vulnerabilities](hacking/index/python-vulnerabilities/README.md)
     * [Data Deserialization](hacking/index/python-vulnerabilities/data-deserialization/README.md)
       * [Pickle](hacking/index/python-vulnerabilities/data-deserialization/pickle.md)
