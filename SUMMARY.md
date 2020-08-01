@@ -6,6 +6,7 @@
 
 * [Index](hacking/index/README.md)
   * [Hack the box writeups](hacking/index/hack-the-box-writeups/README.md)
+    * [Oouch HTB writeup](hacking/index/hack-the-box-writeups/oouch-htb-writeup.md)
     * [Sauna HTB writeup](hacking/index/hack-the-box-writeups/sauna.md)
   * [Python Vulnerabilities](hacking/index/python-vulnerabilities/README.md)
     * [Data Deserialization](hacking/index/python-vulnerabilities/data-deserialization/README.md)
