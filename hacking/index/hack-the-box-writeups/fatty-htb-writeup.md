@@ -6,7 +6,7 @@ Fatty is an insane rated box in Hack the Box, it was extremely fun to do even th
 
 Got some coffee and get ready to enjoy this master piece.
 
-## Enum
+## Enumeration
 
 First things first, so Nmap gave us an FTP server with anonymous access allowed, also some other ports that nmap wasn't able to discover what was running on it.
 
