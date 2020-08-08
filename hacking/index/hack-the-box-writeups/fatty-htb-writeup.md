@@ -2,7 +2,7 @@
 
 ![Fatty Image](https://www.hackthebox.eu/storage/avatars/434a84b479e2121f8dbf2c7c56becffd.png)
 
-Fatty is an insane rated box in Hack the Box, it was extremely fun to do even though it took me ~50 hours of work to root it. This box will make you reverse engineer a java client and a server, develop code and  learn how symlink really works behind different technologies.
+Fatty is an insane rated box in Hack the Box, it was extremely fun to do even though it took me ~50 hours of work to root it. This box will make you reverse engineer a java client and a server, write some code and  learn how symlink really works behind different technologies.
 
 Got some coffee and get ready to enjoy this master piece.
 
