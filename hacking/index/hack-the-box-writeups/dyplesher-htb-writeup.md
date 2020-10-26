@@ -1,12 +1,8 @@
----
-description: >-
-  Dyplesher was my very first Insane Hack The Box machine. Drove me nuts to find
-  an initi
----
-
 # Dyplesher HTB writeup
 
 ![Dyplesher Image](https://www.hackthebox.eu/storage/avatars/eab2ccffece8cdfa57d0743164b9776e.png)
+
+Dyplesher was my very first Insane Hack The Box machine. Drove me nuts to find an initial foothold and root wasn't much harder than a medium/hard box.
 
 ## Enum
 
