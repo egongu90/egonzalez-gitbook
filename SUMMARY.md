@@ -6,6 +6,7 @@
 
 * [Index](hacking/index/README.md)
   * [Hack the box writeups](hacking/index/hack-the-box-writeups/README.md)
+    * [Dyplesher HTB writeup](hacking/index/hack-the-box-writeups/dyplesher-htb-writeup.md)
     * [Fatty HTB writeup](hacking/index/hack-the-box-writeups/fatty-htb-writeup.md)
     * [Oouch HTB writeup](hacking/index/hack-the-box-writeups/oouch-htb-writeup.md)
     * [Sauna HTB writeup](hacking/index/hack-the-box-writeups/sauna.md)
