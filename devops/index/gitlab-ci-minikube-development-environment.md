@@ -31,7 +31,9 @@ helm upgrade --install gitlab . \
   -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml
 ```
 
-Default user is root and password can be get with the following command
+Installation may take for a while, if not too much resources some pods will be restarting a couple of times. Wait until the webserver is running at gitlab main page `https://$(minikube ip)`
+
+Default login user is `root` and password can be get with the following command
 
 ```
 kubectl get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo
