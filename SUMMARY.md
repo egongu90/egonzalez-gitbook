@@ -17,6 +17,15 @@
       * [YAML](hacking/index/python-vulnerabilities/data-deserialization/yaml.md)
   * [Hacking cheatsheet](hacking/index/command-cheatsheet.md)
 
+## DevSecOps
+
+* [Index](devsecops/index/README.md)
+  * [Gitlab CI minikube development environment](devsecops/index/gitlab-ci-minikube-development-environment.md)
+  * [OpenDaylight in a Docker](devsecops/index/opendaylight-in-a-docker.md)
+  * [To conditional or to skip, that's the Ansible question](devsecops/index/to-conditional-or-to-skip-thats-the-ansible-question.md)
+  * [Spacewalk Red Hat Satellite v5 in a Docker container PoC](devsecops/index/spacewalk-red-hat-satellite-v5-in-a-docker-container-poc.md)
+  * [Ansible INI file module](devsecops/index/ansible-ini-file-module.md)
+
 ## OpenStack
 
 * [Index](openstack/index/README.md)
@@ -41,12 +50,3 @@
   * [Load balancer as a service OpenStack LbaaS](openstack/index/load-balancer-as-a-service-openstack-lbaas.md)
   * [OpenStack nova API start error](openstack/index/openstack-nova-api-start-error.md)
   * [Delete OpenStack neutron networks](openstack/index/delete-openstack-neutron-networks.md)
-
-## Docker and DevOps <a href="#devops" id="devops"></a>
-
-* [Index](devops/index/README.md)
-  * [Gitlab CI minikube development environment](devops/index/gitlab-ci-minikube-development-environment.md)
-  * [OpenDaylight in a Docker](devops/index/opendaylight-in-a-docker.md)
-  * [To conditional or to skip, that's the Ansible question](devops/index/to-conditional-or-to-skip-thats-the-ansible-question.md)
-  * [Spacewalk Red Hat Satellite v5 in a Docker container PoC](devops/index/spacewalk-red-hat-satellite-v5-in-a-docker-container-poc.md)
-  * [Ansible INI file module](devops/index/ansible-ini-file-module.md)
