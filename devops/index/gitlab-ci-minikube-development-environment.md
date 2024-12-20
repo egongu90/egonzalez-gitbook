@@ -66,7 +66,7 @@ Deploy gitlab runner helm
 helm install -f values.yml gitlab-runner gitlab/gitlab-runner
 ```
 
-Create a file`.gitlab-ci.yml` in a new project to verify  CI jobs.
+Create a file`.gitlab-ci.yml` in a new project to verify  CI jobs
 
 ```yaml
 stages:
