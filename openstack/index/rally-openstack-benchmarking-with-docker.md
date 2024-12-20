@@ -9,35 +9,34 @@ Main reasons to use Rally inside Docker containers:
 * Quick tests/deployments of Rally tasks
 * Automated testing
 * Cost savings
-* Operators can execute tasks with their own computers, freeing
+*   Operators can execute tasks with their own computers, freeing
 
-  infrastructure resources
-
+    infrastructure resources
 * Re-utilization of resources
 
 Here you got my suggestions about how to use Rally inside Docker:
 
-* Create a new container\(automatized or not by another tool\)
+* Create a new container(automatized or not by another tool)
 * Always use an external volume to store rally reports data
 * Execute Rally tasks
 * Export the reports to the volume shared with the Docker host
 * Kill the container
 
-\| Let\'s start with this quick guide: \| Clone the repo i created with the Dockerfile
+\| Let\\'s start with this quick guide: | Clone the repo i created with the Dockerfile
 
-```text
+```
 [egonzalez@localhost ~]$ git clone https://github.com/egonzalez90/docker-rally.git
 ```
 
 Move to docker-rally directory
 
-```text
+```
 [egonzalez@localhost ~]$ cd docker-rally/
 ```
 
 Create the Docker image
 
-```text
+```
 [egonzalez@localhost docker-rally]$ docker build -t egonzalez90/rally-mitaka .
 Sending build context to Docker daemon  76.8 kB
 Step 1 : FROM centos:7
@@ -62,14 +61,14 @@ Successfully built dc4f3dbc1505
 
 Start rally container with a pseudo-tty and a volume to store rally execution data
 
-```text
+```
 [egonzalez@localhost docker-rally]$ docker run -ti -v /opt/rally-data/:/rally-data:Z egonzalez90/rally-mitaka
 [root@07766ba700e8 /]# 
 ```
 
 Create a file called deploy.json with the admin info of your OpenStack environment
 
-```text
+```
 [root@07766ba700e8 /]# vi deploy.json
 
 {
@@ -86,7 +85,7 @@ Create a file called deploy.json with the admin info of your OpenStack environme
 
 Create a deployment with the json we previously created
 
-```text
+```
 [root@07766ba700e8 /]# rally deployment create --file=deploy.json --name=existing
 2016-06-15 09:42:25.428 25 INFO rally.deployment.engine [-] Deployment a5162111-02a5-458f-bb59-f822cab1aa93 | Starting:  OpenStack cloud deployment.
 2016-06-15 09:42:25.478 25 INFO rally.deployment.engine [-] Deployment a5162111-02a5-458f-bb59-f822cab1aa93 | Completed: OpenStack cloud deployment.
@@ -110,7 +109,7 @@ HINTS:
 
 Source the openrc file rally has created with your user info and test if you can connect with glance
 
-```text
+```
 [root@07766ba700e8 /]# source ~/.rally/openrc
 
 [root@07766ba700e8 /]# glance  image-list
@@ -123,7 +122,7 @@ Source the openrc file rally has created with your user info and test if you can
 
 Check deployment status
 
-```text
+```
 [root@07766ba700e8 /]# rally deployment check
 keystone endpoints are valid and following services are available:
 +-------------+----------------+-----------+
@@ -144,7 +143,7 @@ NOTE: '__unknown__' service name means that Keystone service catalog doesn't ret
 
 Create a test execution file, this test will check if nova can boot and delete some instances
 
-```text
+```
 [root@07766ba700e8 /]# vi execution.json
 
 {
@@ -180,7 +179,7 @@ Create a test execution file, this test will check if nova can boot and delete s
 
 Run the task with the following command
 
-```text
+```
 [root@07766ba700e8 /]# rally task start execution.json
 --------------------------------------------------------------------------------
  Preparing input task
@@ -361,13 +360,12 @@ HINTS:
         rally task results 137eb997-d1f8-4d3f-918a-8aec3db7500f
 ```
 
-\| After a while, you will receive an output execution resume, you can export to a report file with the following command in a pretty style report. \| Use the volume we created with the Docker Host to save report files.
+\| After a while, you will receive an output execution resume, you can export to a report file with the following command in a pretty style report. | Use the volume we created with the Docker Host to save report files.
 
-```text
+```
 [root@07766ba700e8 /]# rally task report 137eb997-d1f8-4d3f-918a-8aec3db7500f --html-static --out /rally-data/output.html
 ```
 
 \| Open the output file form a Web browser and review the report.
 
 \| Regards
-

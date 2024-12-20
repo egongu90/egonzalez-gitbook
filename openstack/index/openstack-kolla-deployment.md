@@ -4,7 +4,7 @@ description: from RDO packages
 
 # OpenStack kolla deployment
 
-OpenStack, Ansible, Docker, production ready, HA, etc. Nothing can be so interesting as Kolla. \| Kolla includes all you need to create, maintain and operate an OpenStack environment. \| All the services will be installed along the nodes you specify inside docker containers with high availability and load balancing between services by default, you don\'t need to care about an external tool for these purposes. \| In future posts, i will talk in more detail about Kolla and how works, also more tips or deployment types. For now, go to the official documentation. \| At this demo, i will use:
+OpenStack, Ansible, Docker, production ready, HA, etc. Nothing can be so interesting as Kolla. | Kolla includes all you need to create, maintain and operate an OpenStack environment. | All the services will be installed along the nodes you specify inside docker containers with high availability and load balancing between services by default, you don\\'t need to care about an external tool for these purposes. | In future posts, i will talk in more detail about Kolla and how works, also more tips or deployment types. For now, go to the official documentation. | At this demo, i will use:
 
 * x1 Deployment node: Laptop with 12GB of RAM and a single CPU
 * x3 Target nodes: VMs with 24GB of RAM and 2 vCPU each one.
@@ -14,7 +14,7 @@ OpenStack, Ansible, Docker, production ready, HA, etc. Nothing can be so interes
 
 Before deploy OpenStack with Kolla, we need to ensure all the nodes got time synchronized.
 
-```text
+```
 yum -y install ntp
 systemctl enable ntpd.service
 systemctl start ntpd.service
@@ -22,26 +22,26 @@ systemctl start ntpd.service
 
 Next, stop and disable libvirt service to avoid conflicts with libvirt containers.
 
-```text
+```
 systemctl stop libvirtd
 systemctl disable libvirtd
 ```
 
 Install docker
 
-```text
+```
 curl -sSL https://get.docker.io | bash
 ```
 
 Add the user you are using to docker group so this user can issue docker commands without sudo. Logoff and login to apply changes.
 
-```text
+```
 sudo usermod -aG docker root
 ```
 
 Create a file called kolla.conf with the following content.
 
-```text
+```
 vi /etc/systemd/system/docker.service.d/kolla.conf
 [Service]
 MountFlags=shared
@@ -49,14 +49,14 @@ MountFlags=shared
 
 Restart and enable docker service
 
-```text
+```
 systemctl restart docker
 systemctl enable docker
 ```
 
 Install some packages who are needed by next steps.
 
-```text
+```
 yum install -y python-devel libffi-devel openssl-devel gcc git python-pip python-openstackclient
 ```
 
@@ -64,45 +64,45 @@ yum install -y python-devel libffi-devel openssl-devel gcc git python-pip python
 
 Install EPEL repository
 
-```text
+```
 yum install -y epel-release
 ```
 
 Install ansible
 
-```text
+```
 yum install -y ansible
 ```
 
 Clone Kolla mitaka/stable code.
 
-```text
+```
 git clone https://git.openstack.org/openstack/kolla -b stable/mitaka
 ```
 
 Install kolla and dependencies.
 
-```text
+```
 pip install kolla/
 ```
 
 Copy kolla configuration files to /etc/
 
-```text
+```
 cd kolla
 cp -r etc/kolla /etc/
 ```
 
 Create kolla build config file
 
-```text
+```
 pip install tox
 tox -e genconfig
 ```
 
 Edit kolla-build file with the following content
 
-```text
+```
 vi /etc/kolla/kolla-build.conf 
 
 base = centos
@@ -112,21 +112,21 @@ install_type = rdo
 registry = docker.io
 ```
 
-Login with your DockerHub account, sometimes, login doesn\'t works as expected. Review auth url at authentication file in ~/.docker/ directory. After Austin Summit i will post exact changes i made in the URL.
+Login with your DockerHub account, sometimes, login doesn\\'t works as expected. Review auth url at authentication file in \~/.docker/ directory. After Austin Summit i will post exact changes i made in the URL.
 
-```text
+```
 docker login
 ```
 
-\| Create and push the images to your DockerHub account. \| If images are not automatically pushed to the remote repository, push them manually once image creation finished. \| Building images can last various hours, in my experience sometimes were built in 3 hours and another times in 9 hours. And much more if you are going to push them to your DockerHub instead of a private registry.
+\| Create and push the images to your DockerHub account. | If images are not automatically pushed to the remote repository, push them manually once image creation finished. | Building images can last various hours, in my experience sometimes were built in 3 hours and another times in 9 hours. And much more if you are going to push them to your DockerHub instead of a private registry.
 
-```text
+```
 kolla-build -n egonzalez90 --push
 ```
 
 Review all docker images kolla has created.
 
-```text
+```
 [egonzalez@localhost kolla]$ docker images | grep mitaka
 egonzalez90/centos-binary-cinder-api                  mitaka              ba2cca4b09fa        16 hours ago        814.5 MB
 egonzalez90/centos-binary-cinder-volume               mitaka              1d31a049f327        16 hours ago        802.4 MB
@@ -244,7 +244,7 @@ egonzalez90/centos-binary-base                        mitaka              b104d0
 
 In target nodes, a newer version of pip and docker-py is needed, install it.
 
-```text
+```
 sudo pip install -U pip
 pip install -U docker-py
 ```
@@ -253,13 +253,13 @@ pip install -U docker-py
 
 Kolla ships a tool to create random passwords, issue this command to run this tool. Also, you can modify passwords file at /etc/kolla/ directory.
 
-```text
+```
 kolla-genpwd
 ```
 
-\| Edit globals.yml file with the following content, use your own info if necessary. \| Change docker\_namespace with your docker account name.
+\| Edit globals.yml file with the following content, use your own info if necessary. | Change docker\_namespace with your docker account name.
 
-```text
+```
 vi /etc/kolla/globals.yml
 
 kolla_base_distro: "centos"
@@ -272,9 +272,9 @@ network_interface: "eth2"
 neutron_external_interface: "ens9"
 ```
 
-Edit the inventory file with your server\'s IPs or hostnames.
+Edit the inventory file with your server\\'s IPs or hostnames.
 
-```text
+```
 vi ansible/inventory/multinode
 
 [control]
@@ -307,7 +307,7 @@ vi ansible/inventory/multinode
 
 Create an SSH key to login into target servers.
 
-```text
+```
 [root@kolla-deployment-node kolla]# ssh-keygen
 Generating public/private rsa key pair.
 Enter file in which to save the key (/root/.ssh/id_rsa): 
@@ -333,15 +333,15 @@ The key's randomart image is:
 
 Copy the SSH key you have previously created to all your target nodes.
 
-```text
+```
 [root@kolla-deployment-node kolla]# ssh-copy-id root@192.168.1.77
 [root@kolla-deployment-node kolla]# ssh-copy-id root@192.168.1.74
 [root@kolla-deployment-node kolla]# ssh-copy-id root@192.168.1.78
 ```
 
-\| Ensure all hostnames can be resolved between all the nodes, this is a necessary step, if not, rabbitmq will fail. \| If using a DNS server you can skip this task. \| Configure hosts file.
+\| Ensure all hostnames can be resolved between all the nodes, this is a necessary step, if not, rabbitmq will fail. | If using a DNS server you can skip this task. | Configure hosts file.
 
-```text
+```
 vi /etc/hosts
 
 192.168.1.77 node1
@@ -351,14 +351,14 @@ vi /etc/hosts
 
 Copy hosts file to the other nodes.
 
-```text
+```
 scp /etc/hosts root@node2:/etc/hosts
 scp /etc/hosts root@node3:/etc/hosts
 ```
 
 Execute the prechecks tool to ensure all requisites are ok.
 
-```text
+```
 [root@kolla-deployment-node kolla]# kolla-ansible prechecks -i ansible/inventory/multinode 
 Pre-deployment checking : ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/share/kolla/ansible/prechecks.yml 
 
@@ -375,9 +375,9 @@ PLAY RECAP ********************************************************************
 192.168.1.78               : ok=63   changed=0    unreachable=0    failed=0   
 ```
 
-\| Once all requistes are passed, start the installation of OpenStack by Kolla. \| The first time usually take a long time, because docker images need to be pulled into target hosts, and more if pull comes from DockerHub registry instead of a local one.
+\| Once all requistes are passed, start the installation of OpenStack by Kolla. | The first time usually take a long time, because docker images need to be pulled into target hosts, and more if pull comes from DockerHub registry instead of a local one.
 
-```text
+```
 [root@kolla-deployment-node kolla]# kolla-ansible deploy -i ansible/inventory/multinode
 Deploying Playbooks : ansible-playbook -i ansible/inventory/multinode -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  -e action=deploy /usr/share/kolla/ansible/site.yml 
 
@@ -409,7 +409,7 @@ PLAY RECAP ********************************************************************
 
 Execute this tool to create a credential file.
 
-```text
+```
 [root@kolla-deployment-node kolla]# kolla-ansible post-deploy
 
 Post-Deploying Playbooks : ansible-playbook -i /usr/share/kolla/ansible/inventory/all-in-one -e @/etc/kolla/globals.yml -e @/etc/kolla/passwords.yml -e CONFIG_DIR=/etc/kolla  /usr/share/kolla/ansible/post-deploy.yml 
@@ -428,13 +428,13 @@ localhost                  : ok=2    changed=1    unreachable=0    failed=0
 
 Source credential file.
 
-```text
+```
 [root@kolla-deployment-node kolla]# source /etc/kolla/admin-openrc.sh
 ```
 
-\| Kolla ships a tool to create a base Openstack configuration layout, this will create networks, routers, images, etc. \| Execute it in the newly OpenStack environment.
+\| Kolla ships a tool to create a base Openstack configuration layout, this will create networks, routers, images, etc. | Execute it in the newly OpenStack environment.
 
-```text
+```
 [root@kolla-deployment-node kolla]# tools/init-runonce
 Downloading glance image.
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -647,7 +647,7 @@ Configuring nova public key and quotas.
 
 Check nova services status
 
-```text
+```
 [egonzalez@localhost kolla]$ nova service-list
 +----+------------------+-------+----------+---------+-------+----------------------------+-----------------+
 | Id | Binary           | Host  | Zone     | Status  | State | Updated_at                 | Disabled Reason |
@@ -669,7 +669,7 @@ Check nova services status
 
 Check Neutron agents status.
 
-```text
+```
 [egonzalez@localhost kolla]$ neutron agent-list
 +--------------------------------------+--------------------+-------+-------+----------------+---------------------------+
 | id                                   | agent_type         | host  | alive | admin_state_up | binary                    |
@@ -691,13 +691,13 @@ Check Neutron agents status.
 
 Create a new instance and see what happens.
 
-```text
+```
 [egonzalez@localhost kolla]$ openstack server create --image cirros --flavor m1.tiny --nic net-id=demo-net demo-instance
 ```
 
 Check how the instance is going.
 
-```text
+```
 [egonzalez@localhost kolla]$ openstack server list
 +--------------------------------------+---------------+--------+-------------------+
 | ID                                   | Name          | Status | Networks          |
@@ -709,4 +709,3 @@ Check how the instance is going.
 Thats all for now, in future posts we will see in more detail how Kolla works.
 
 Cheers, Eduardo Gonzalez
-

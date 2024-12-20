@@ -1,14 +1,14 @@
 # OpenStack tacker and service function chaining sfc with kolla
 
-In this blog post I will show how to deploy OpenStack Tacker with \| Service Function Chaining \(SFC\) with OpenStack kolla project and make a few \| verifications and tests to ensure fully NFV and SFC functionality.
+In this blog post I will show how to deploy OpenStack Tacker with | Service Function Chaining (SFC) with OpenStack kolla project and make a few | verifications and tests to ensure fully NFV and SFC functionality.
 
 Tacker and SFC is only supported in kolla during Pike release or later.
 
 ### Tacker, NFV and SFC concepts
 
-Tacker is an OpenStack service for NFV Orchestration with a general purpose VNF Manager to deploy and operate Virtual Network Functions \(VNFs\) and Network Services on an NFV Platform. It is based on ETSI MANO Architectural \| Framework. [Tacker documentation](https://docs.openstack.org/tacker/latest/)
+Tacker is an OpenStack service for NFV Orchestration with a general purpose VNF Manager to deploy and operate Virtual Network Functions (VNFs) and Network Services on an NFV Platform. It is based on ETSI MANO Architectural | Framework. [Tacker documentation](https://docs.openstack.org/tacker/latest/)
 
-Network functions virtualization \(NFV\) is a network architecture concept that uses the technologies of IT virtualization to virtualize entire classes of network node functions into building blocks that may connect, or chain together, to create communication services. [ETSI NFV specs](http://www.etsi.org/technologies-clusters/technologies/nfv)
+Network functions virtualization (NFV) is a network architecture concept that uses the technologies of IT virtualization to virtualize entire classes of network node functions into building blocks that may connect, or chain together, to create communication services. [ETSI NFV specs](http://www.etsi.org/technologies-clusters/technologies/nfv)
 
 Service Function Chaining is a mechanism for overriding the basic destination based forwarding that is typical of IP networks. It is conceptually related to Policy Based Routing in physical networks but it is typically thought of as a Software Defined Networking technology. It is often used in conjunction with security functions although it may be used for a broader range of features. [ETSI SFC spec](https://tools.ietf.org/html/rfc7665)
 
@@ -20,7 +20,7 @@ Kolla is a highly opinionated deployment tool out of the box. This permits Kolla
 
 Kolla depends on the following requirements to be met for a fully operational multinode OpenStack cluster with Tacker and SFC features:
 
-* Core compute stack \(nova, neutron, glance, etc\)
+* Core compute stack (nova, neutron, glance, etc)
 * Heat
 * Mistral and Redis
 * Barbican
@@ -28,11 +28,11 @@ Kolla depends on the following requirements to be met for a fully operational mu
 
 #### Deployment
 
-Install base kolla and dependencies following [kolla\'s quickstart guide](https://docs.openstack.org/kolla-ansible/latest/quickstart.html)
+Install base kolla and dependencies following [kolla\\'s quickstart guide](https://docs.openstack.org/kolla-ansible/latest/quickstart.html)
 
 Configure `globals.yml` and enable services in requirements, optionally other services can be enabled altogether. Refer to kolla documentation for other option/values information.
 
-```text
+```
 $ vi /etc/kolla/globals.yml
 
 ---
@@ -55,7 +55,7 @@ enable_barbican: "yes"
 
 Configure inventory file.
 
-```text
+```
 $ vi <inventory_file>
 
 [control]
@@ -86,19 +86,19 @@ $ vi <inventory_file>
 
 Generate passwords
 
-```text
+```
 $ kolla-genpwd
 ```
 
 Deploy OpenStack.
 
-```text
+```
 $ kolla-ansible -i ~/multinode deploy
 ```
 
 Once deployment finish, generate credential file and create base networks and a cirros image.
 
-```text
+```
 $ kolla-ansible -i ~/multinode post-deploy
 $ source /etc/kolla/admin-openrc.sh
 $ sh init-runonce
@@ -108,7 +108,7 @@ $ sh init-runonce
 
 In kolla-ansible repository a tacker demo is present. [Tacker demo](https://github.com/openstack/kolla-ansible/tree/master/contrib/demos/tacker)
 
-```text
+```
 $ cd <kolla-ansible repo>/contrib/demos/tacker/
 $ ls -l
 total 16
@@ -120,7 +120,7 @@ total 16
 
 Before starting the demo, install tacker and networking-sfc clients.
 
-```text
+```
 $ pip install python-tackerclient networking-sfc
 ```
 
@@ -144,19 +144,18 @@ After demo is deployed will be able to:
 Traffic flows:
 
 * Request from kolla\_sfc\_client instance
-* Tacker VNF instance will receive the traffic and redirect to
+*   Tacker VNF instance will receive the traffic and redirect to
 
-  kolla\_sfc\_server
+    kolla\_sfc\_server
+*   kolla\_sfc\_server instance receive request and reply with \\"W00t
 
-* kolla\_sfc\_server instance receive request and reply with \"W00t
-
-  from Kolla HTTP server!\" message.
+    from Kolla HTTP server!\\" message.
 
 #### Execute tacker demo
 
 In tacker demo directory initialize execution.
 
-```text
+```
 $ sh deploy-tacker-demo-sfc
 
 Generating sample config
@@ -327,7 +326,7 @@ Once finished, script will show server and client floating IP addresses, also a 
 
 Verify tacker resources are created.
 
-```text
+```
 $ tacker vim-list
 
 +--------------------------------------+----------------------------------+------------------+-----------+------------+------------------------------+-----------+
@@ -353,7 +352,7 @@ $ tacker vnfd-list
 
 Verify nova and heat resources are created.
 
-```text
+```
 $ openstack server list
 
 +--------------------------------------+-------------------------------------------------------+--------+------------------------------------+--------+-----------------------------------------------------------------------------------------------------------------------+
@@ -374,7 +373,7 @@ $ openstack stack list
 
 Verify networking-sfc resources.
 
-```text
+```
 $ openstack sfc port chain list
 
 +--------------------------------------+-------------------------------+-------------------------------------------+-------------------------------------------+------------------------------------------------+
@@ -449,7 +448,7 @@ $ openstack sfc flow classifier show 063231fc-f697-4bd9-bfb6-b89f89ff6117
 
 Execute the command to create a sample web server in tacker\_sfc\_server.
 
-```text
+```
 $ ssh cirros@192.168.150.110 'while true; \
 >     do echo -e "HTTP/1.0 200 OK\r\n\r\nW00t from Kolla HTTP server!" | sudo nc -l -p 80 ; done &'
 
@@ -462,7 +461,7 @@ cirros@192.168.150.110's password:
 
 Connect to tacker\_sfc\_client through the floating IP address
 
-```text
+```
 $ ssh cirros@192.168.150.102
 
 The authenticity of host '192.168.150.102 (192.168.150.102)' can't be established.
@@ -472,18 +471,18 @@ Warning: Permanently added '192.168.150.102' (RSA) to the list of known hosts.
 cirros@192.168.150.102's password:
 ```
 
-Curl to tacker\_sfc\_server internal/fixed IP address. 
+Curl to tacker\_sfc\_server internal/fixed IP address.&#x20;
 
-Should receive \"W00t from Kolla HTTP server!\" message
+Should receive \\"W00t from Kolla HTTP server!\\" message
 
-```text
+```
 $ curl http://10.0.0.3
 W00t from Kolla HTTP server!
 ```
 
 Find hypervisor where tacker VNF instance is running.
 
-```text
+```
 $ openstack server list -c Name -c Host -c Networks -c Status --long
 
 +-------------------------------------------------------+--------+------------------------------------+------------+
@@ -497,7 +496,7 @@ $ openstack server list -c Name -c Host -c Networks -c Status --long
 
 Find tacker VNF instance port ID
 
-```text
+```
 $ openstack port list --server ta-3d1b-6d6b-44c9-a6ef-a808f12bc633-VDU1-hvpraqctwpm7 -c ID
 +--------------------------------------+
 | ID                                   |
@@ -506,13 +505,13 @@ $ openstack port list --server ta-3d1b-6d6b-44c9-a6ef-a808f12bc633-VDU1-hvpraqct
 +--------------------------------------+
 ```
 
-In the host where the instance is running, locate the tap interface. 
+In the host where the instance is running, locate the tap interface.&#x20;
 
-Tap interface is `tap<first 11 ID digits>`. 
+Tap interface is `tap<first 11 ID digits>`.&#x20;
 
 Start tcpdump in port 80 in the tap interface.
 
-```text
+```
 $ tcpdump port 80 -eni tape5da60a7-a3
 
 tcpdump: WARNING: tape5da60a7-a3: no IPv4 address assigned
@@ -522,14 +521,14 @@ listening on tape5da60a7-a3, link-type EN10MB (Ethernet), capture size 65535 byt
 
 Now curl again from tacker\_sfc\_client instance.
 
-```text
+```
 $ curl http://10.0.0.3
 W00t from Kolla HTTP server!
 ```
 
 In the tcpdump should see traffic flowing to tacker\_sfc\_server from tacker\_sfc\_client
 
-```text
+```
 10:18:39.207908 fa:16:3e:6d:65:14 > fa:16:3e:2f:3e:90, ethertype IPv4 (0x0800), length 74: 10.0.0.7.40475 > 10.0.0.3.http: Flags [S], seq 3060324847, win 14100, options [mss 1410,sackOK,TS val 346030 ecr 0,nop,wscale 3], length 0
 10:18:39.209263 fa:16:3e:2f:3e:90 > fa:16:3e:d7:6f:3b, ethertype IPv4 (0x0800), length 74: 10.0.0.7.40475 > 10.0.0.3.http: Flags [S], seq 3060324847, win 14100, options [mss 1410,sackOK,TS val 346030 ecr 0,nop,wscale 3], length 0
 10:18:39.214001 fa:16:3e:6d:65:14 > fa:16:3e:2f:3e:90, ethertype IPv4 (0x0800), length 66: 10.0.0.7.40475 > 10.0.0.3.http: Flags [.], ack 2793310193, win 1763, options [nop,nop,TS val 346032 ecr 352982], length 0
@@ -544,7 +543,7 @@ In the tcpdump should see traffic flowing to tacker\_sfc\_server from tacker\_sf
 
 Check br-int ovs flows.
 
-```text
+```
 $ docker exec openvswitch_db ovs-ofctl dump-flows br-int
 
 NXST_FLOW reply (xid=0x4):
@@ -568,7 +567,7 @@ NXST_FLOW reply (xid=0x4):
 
 Check br-tun ovs flows.
 
-```text
+```
 $ docker exec openvswitch_db ovs-ofctl dump-flows br-tun
 
 NXST_FLOW reply (xid=0x4):
@@ -599,7 +598,7 @@ NXST_FLOW reply (xid=0x4):
 
 Once Tacker and SFC is verified, all resources can be deleted.
 
-```text
+```
 $ sh cleanup-tacker
 
 Deleting VNFFG
@@ -619,4 +618,3 @@ Removing sample config
 In following posts will show how to tacker templates works and an in deep sfc traffic flows analysis.
 
 Regards, Eduardo Gonzalez
-

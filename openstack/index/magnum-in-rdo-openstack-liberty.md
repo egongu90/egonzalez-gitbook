@@ -4,64 +4,63 @@ description: Manual installation from source code
 
 # Magnum in RDO OpenStack Liberty
 
- Want to install Magnum \(Containers as a Service\) in an OpenStack environment based on packages from RDO project? Here are the steps to do it:
+&#x20;Want to install Magnum (Containers as a Service) in an OpenStack environment based on packages from RDO project? Here are the steps to do it:
 
-\|Primary steps are the same as official Magnum guide, major differences come from DevStack or manual installations vs packages from RDO project. 
+|Primary steps are the same as official Magnum guide, major differences come from DevStack or manual installations vs packages from RDO project.&#x20;
 
-Also, some of the steps are explained to show how Magnum should work, as well this guide can help you understand Magnum integration with your current environment. 
+Also, some of the steps are explained to show how Magnum should work, as well this guide can help you understand Magnum integration with your current environment.&#x20;
 
-I\'m not going to use Barbican service for certs management, you will see how to use Magnum without Barbican too.
+I\\'m not going to use Barbican service for certs management, you will see how to use Magnum without Barbican too.
 
-* For now, there is not RDO packages for magnum, so we are going to
+*   For now, there is not RDO packages for magnum, so we are going to
 
-  install it from source code.
+    install it from source code.
+*   As i know, currently magnum packages are under development and will
 
-* As i know, currently magnum packages are under development and will
+    be added in future OpenStack versions to RDO project packages.
 
-  be added in future OpenStack versions to RDO project packages.
-
-  \(Probably Mitaka or Newton\)
+    (Probably Mitaka or Newton)
 
 Passwords used at this demo are:
 
-* temporal \(Databases and OpenStack users\)
-* guest \(RabbitMQ\)
+* temporal (Databases and OpenStack users)
+* guest (RabbitMQ)
 
 IPs used are:
 
-* 192.168.200.208 \(Service APIs\)
-* 192.168.100.0/24 \(External network range\)
-* 10.0.0.0/24 \(Tenant network range\)
-* 8.8.8.8 \(Google DNS server\)
+* 192.168.200.208 (Service APIs)
+* 192.168.100.0/24 (External network range)
+* 10.0.0.0/24 (Tenant network range)
+* 8.8.8.8 (Google DNS server)
 
 First we need to install some dependencies and packages needed for next steps.
 
-```text
+```
 sudo yum install -y gcc python-setuptools python-devel git libffi-devel openssl-devel wget
 ```
 
 Install pip
 
-```text
+```
 easy_install pip
 ```
 
-Clone Magnum source code from OpenStack git repository, ensure you use Liberty branch, if not, Magnum dependencies will break all OpenStack services dependencies and lost your current environment \(Trust me, i\'m talking from my own experience\)
+Clone Magnum source code from OpenStack git repository, ensure you use Liberty branch, if not, Magnum dependencies will break all OpenStack services dependencies and lost your current environment (Trust me, i\\'m talking from my own experience)
 
-```text
+```
 git clone https://git.openstack.org/openstack/magnum -b stable/liberty
 ```
 
-Move to your newly created folder and install Magnum \(dependency requirements and Magnum\)
+Move to your newly created folder and install Magnum (dependency requirements and Magnum)
 
-```text
+```
 cd magnum
 sudo pip install -e .
 ```
 
 Once Magnum is installed, create Magnum database and Magnum user
 
-```text
+```
 mysql -uroot -p
 CREATE DATABASE IF NOT EXISTS magnum DEFAULT CHARACTER SET utf8;
 GRANT ALL PRIVILEGES ON magnum.* TO'magnum'@'localhost' IDENTIFIED BY 'temporal';
@@ -70,7 +69,7 @@ GRANT ALL PRIVILEGES ON magnum.* TO'magnum'@'%' IDENTIFIED BY 'temporal';
 
 Create Magnum folder and copy sample configuration files.
 
-```text
+```
 mkdir /etc/magnum
 sudo cp etc/magnum/magnum.conf.sample /etc/magnum/magnum.conf
 sudo cp etc/magnum/policy.json /etc/magnum/policy.json
@@ -78,13 +77,13 @@ sudo cp etc/magnum/policy.json /etc/magnum/policy.json
 
 Edit Magnum main configuration file
 
-```text
+```
 vi /etc/magnum/magnum.conf
 ```
 
 Configure messaging backend to RabbitMQ
 
-```text
+```
 [DEFAULT]
 
 rpc_backend = rabbit
@@ -93,7 +92,7 @@ notification_driver = messaging
 
 Bind Magnum API port to listen on all the interfaces, you can also especify on which IP Magnum API will be listening if you are concerned about security risks.
 
-```text
+```
 [api]
 
 host = 0.0.0.0
@@ -101,7 +100,7 @@ host = 0.0.0.0
 
 Configure RabbitMQ backend
 
-```text
+```
 [oslo_messaging_rabbit]
 
 rabbit_host = 192.168.200.208
@@ -112,15 +111,15 @@ rabbit_virtual_host = /
 
 Set database connection
 
-```text
+```
 [database]
 
 connection=mysql://magnum:temporal@192.168.200.208/magnum
 ```
 
-Set cert\_manager\_type to local, this option will disable Barbican service, you will need to create a folder \(We will do it in next steps\)
+Set cert\_manager\_type to local, this option will disable Barbican service, you will need to create a folder (We will do it in next steps)
 
-```text
+```
 [certificates]
 
 cert_manager_type = local
@@ -128,11 +127,11 @@ cert_manager_type = local
 
 As all OpenStack services, Keystone authentication is required.
 
-* Check what your service tenant name it is \(RDO default name is
+*   Check what your service tenant name it is (RDO default name is
 
-  \"services\" other installations usually use \"service\" name.
+    \\"services\\" other installations usually use \\"service\\" name.
 
-```text
+```
 [keystone_authtoken]
 
 auth_uri=http://192.168.200.208:5000/v2.0
@@ -145,13 +144,13 @@ admin_tenant_name=services
 
 As we saw before, create local certificates folder to avoid using Barbican service. This is the step we previously commented
 
-```text
+```
 mkdir -p /var/lib/magnum/certificates/
 ```
 
 Clone python-magnumclient and install it, this package will provide us commands to use Magnum
 
-```text
+```
 git clone https://git.openstack.org/openstack/python-magnumclient -b stable/liberty
 cd python-magnumclient
 sudo pip install -e .
@@ -159,44 +158,44 @@ sudo pip install -e .
 
 Create Magnum user at keystone
 
-```text
+```
 openstack user create --password temporal magnum
 ```
 
 Add admin role to Magnum user at tenant services
 
-```text
+```
 openstack role add --project services --user magnum admin
 ```
 
 Create container service
 
-```text
+```
 openstack service create --name magnum --description "Magnum Container Service" container
 ```
 
 Finally create Magnum endpoints
 
-```text
+```
 openstack endpoint create --region RegionOne --publicurl 'http://192.168.200.208:9511/v1' --adminurl 'http://192.168.200.208:9511/v1' --internalurl 'http://192.168.200.208:9511/v1' magnum
 ```
 
 Sync Magnum database, this step will create Magnum tables at the database
 
-```text
+```
 magnum-db-manage --config-file /etc/magnum/magnum.conf upgrade
 ```
 
 Open two terminal session and execute one command on each terminal to start both services. If you encounter any issue, logs can be found at these terminal
 
-```text
+```
 magnum-api --config-file /etc/magnum/magnum.conf
 magnum-conductor --config-file /etc/magnum/magnum.conf
 ```
 
 Check if Magnum service is fine
 
-```text
+```
 magnum service-list
 +----+------------+------------------+-------+
 | id | host       | binary           | state |
@@ -207,13 +206,13 @@ magnum service-list
 
 Download fedora atomic image
 
-```text
+```
 wget https://fedorapeople.org/groups/magnum/fedora-21-atomic-5.qcow2
 ```
 
 Create a Glance image with Atomic.qcow2 file
 
-```text
+```
 glance image-create --name fedora-21-atomic-5 \
                     --visibility public \
                     --disk-format qcow2 \
@@ -242,23 +241,23 @@ glance image-create --name fedora-21-atomic-5 \
 +------------------+--------------------------------------+
 ```
 
-Create a ssh key if not exists, this command won\'t create a new ssh key if already exists
+Create a ssh key if not exists, this command won\\'t create a new ssh key if already exists
 
-```text
+```
 test -f ~/.ssh/id_rsa.pub || ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 ```
 
 Add the key to nova, mine is called egonzalez
 
-```text
+```
 nova keypair-add --pub-key ~/.ssh/id_rsa.pub egonzalez
 ```
 
-\| Now we are going to test our new Magnum service, you have various methods to do it. \| I will use Docker Swarm method because is the simplest one for this demo purposes. Go through Magnum documentation to check other container methods as Kubernetes is.
+\| Now we are going to test our new Magnum service, you have various methods to do it. | I will use Docker Swarm method because is the simplest one for this demo purposes. Go through Magnum documentation to check other container methods as Kubernetes is.
 
 Create a baymodel with atomic image and swarm, select a flavor with at least 10GB of disk
 
-```text
+```
 magnum baymodel-create --name demoswarmbaymodel \
                        --image-id fedora-21-atomic-5 \
                        --keypair-id egonzalez \
@@ -299,7 +298,7 @@ magnum baymodel-create --name demoswarmbaymodel \
 
 Create a bay with the previous bay model, we are going to create one master node and one worker, specify all that apply to your environment
 
-```text
+```
 magnum bay-create --name demoswarmbay --baymodel demoswarmbaymodel --master-count 1 --node-count 1
 +--------------------+--------------------------------------+
 | Property           | Value                                |
@@ -322,7 +321,7 @@ magnum bay-create --name demoswarmbay --baymodel demoswarmbaymodel --master-coun
 
 Check bay status, for now it should be in CREATE\_IN\_PROGRESS state
 
-```text
+```
 magnum bay-show demoswarmbay
 +--------------------+--------------------------------------+
 | Property           | Value                                |
@@ -343,9 +342,9 @@ magnum bay-show demoswarmbay
 +--------------------+--------------------------------------+
 ```
 
-If all is going fine, nova should have two new instances\(in ACTIVE state\), one for the master node and second for the worker.
+If all is going fine, nova should have two new instances(in ACTIVE state), one for the master node and second for the worker.
 
-```text
+```
 nova list
 +--------------------------------------+-------------------------------------------------------+--------+------------+-------------+-------------------------------------------------------------------------------+
 | ID                                   | Name                                                  | Status | Task State | Power State | Networks                                                                      |
@@ -357,7 +356,7 @@ nova list
 
 You can see how heat stack is going
 
-```text
+```
 heat stack-list
 +--------------------------------------+---------------------------+--------------------+---------------------+--------------+
 | id                                   | stack_name                | stack_status       | creation_time       | updated_time |
@@ -368,7 +367,7 @@ heat stack-list
 
 We can see what tasks are executing during stack creation
 
-```text
+```
 heat event-list demoswarmbay-agf6y3qnjoyw
 +-------------------------------------+--------------------------------------+------------------------+--------------------+---------------------+
 | resource_name                       | id                                   | resource_status_reason | resource_status    | event_time          |
@@ -435,7 +434,7 @@ heat event-list demoswarmbay-agf6y3qnjoyw
 
 Once all tasks are completed, we can create containers in the bay we created in previous steps.
 
-```text
+```
 magnum container-create --name demo-container \
                         --image docker.io/cirros:latest \
                         --bay demoswarmbay \
@@ -454,15 +453,15 @@ magnum container-create --name demo-container \
 +------------+----------------------------------------+
 ```
 
-\| Container is created, but not started. \| Start the container
+\| Container is created, but not started. | Start the container
 
-```text
+```
 magnum container-start demo-container
 ```
 
 Check container logs, you should see 4 pings succeed to our external router gateway.
 
-```text
+```
 magnum container-logs demo-container
 
 PING 192.168.100.2 (192.168.100.2) 56(84) bytes of data.
@@ -474,7 +473,7 @@ PING 192.168.100.2 (192.168.100.2) 56(84) bytes of data.
 
 You can delete the container
 
-```text
+```
 magnum container-delete demo-container
 ```
 
@@ -484,33 +483,32 @@ I suffered the following issues:
 
 Issues with packages
 
-```text
+```
 ImportError: No module named MySQLdb
 ```
 
 Was solved installing MySQL-python from pip instead of yum
 
-```text
+```
 pip install MySQL-python
 ```
 
-Issues with policies, admin privileges weren\'t recognized by Magnum api.
+Issues with policies, admin privileges weren\\'t recognized by Magnum api.
 
-```text
+```
 PolicyNotAuthorized: magnum-service:get_all{{ bunch of stuff }} disallowed by policy
 ```
 
 Was solved removing admin\_api rule at Magnum policy.json file
 
-```text
+```
 vi /etc/magnum/policy.json
 
 #    "admin_api": "rule:context_is_admin",
 ```
 
-\| Unfortunately, nova was completely broken and it was not working at all, so i installed a new environment and added branch while cloning source code. \| Next issue i found was Barbican, who was not installed, i used the steps mentioned at this post to solve this issue.
+\| Unfortunately, nova was completely broken and it was not working at all, so i installed a new environment and added branch while cloning source code. | Next issue i found was Barbican, who was not installed, i used the steps mentioned at this post to solve this issue.
 
 Hope this guide helps you integrating Magnum Container as a Service in OpenStack.
 
 Regards, Eduardo Gonzalez
-

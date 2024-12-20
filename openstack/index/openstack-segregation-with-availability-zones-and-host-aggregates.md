@@ -2,36 +2,36 @@
 
 When a new OpenStack cloud born, usually all servers run over the same hardware and specifications, often, all servers are in the same building, room, rack, even a chassis when the cloud is in the first growth paces.
 
-After a while, workloads increase and the current hardware is not enough to process that workloads. At this point, your hardware is old and new hardware is bought. This hardware has different storage disks, CPU, RAM and so on. You passed from 10\'s of servers to 100\'s. DataCenter racks, rooms and buildings are too small and the growing cloud needs redundancy between cities or countries.
+After a while, workloads increase and the current hardware is not enough to process that workloads. At this point, your hardware is old and new hardware is bought. This hardware has different storage disks, CPU, RAM and so on. You passed from 10\\'s of servers to 100\\'s. DataCenter racks, rooms and buildings are too small and the growing cloud needs redundancy between cities or countries.
 
-OpenStack offers a few solutions for that purpose, called Regions, Cells, Availability Zones and Host Aggregates. \| Now, we are going to focus on Availability Zones and Host Aggregates, which are the way to segregate computational workloads.
+OpenStack offers a few solutions for that purpose, called Regions, Cells, Availability Zones and Host Aggregates. | Now, we are going to focus on Availability Zones and Host Aggregates, which are the way to segregate computational workloads.
 
 * Host Aggregates:
-  * Host Aggregates represent a logical set of
+  *   Host Aggregates represent a logical set of
 
-    properties/characteristics a group of hosts owns in the form of
+      properties/characteristics a group of hosts owns in the form of
 
-    metadata. Imagine some of your servers have SSD disks and the
+      metadata. Imagine some of your servers have SSD disks and the
 
-    other ones SATA, you can map those properties SSD/SATA to a
+      other ones SATA, you can map those properties SSD/SATA to a
 
-    group of hosts, when a image or flavor with the metaparameter
+      group of hosts, when a image or flavor with the metaparameter
 
-    associated is launched, Nova Scheduler will filter the available
+      associated is launched, Nova Scheduler will filter the available
 
-    hosts with the meta parameter value and boot the instance on
+      hosts with the meta parameter value and boot the instance on
 
-    hosts with the desired property. Host Aggregates are managed by
+      hosts with the desired property. Host Aggregates are managed by
 
-    OpenStack admins.
+      OpenStack admins.
 * Availability Zones
-  * Availability Zones represent a logical partition of the
+  *   Availability Zones represent a logical partition of the
 
-    infrastructure\(not necessary but is the common use case\) in the
+      infrastructure(not necessary but is the common use case) in the
 
-    form of racks, rooms, buildings, etc. Customers can launch
+      form of racks, rooms, buildings, etc. Customers can launch
 
-    instances in the desired Availability Zone.
+      instances in the desired Availability Zone.
 
 Usually, Host Aggregates are mapped to Availability Zones allowing customers to use the desired set of hardware or characteristics to boot instances.
 
@@ -46,9 +46,9 @@ At the end of this guide you will know how to:
 
 Let's start: \00/
 
-\| Create two Host Aggregate called `"az1-ag"/"az2-ag"`, this command also, will create two Availability Zones called `"az1"/"az2"`. \| By default, when a Host Aggregate is created with an Availability Zone, a metadata key called `"availability_zone=NAME_OF_AZ`" will be created.
+\| Create two Host Aggregate called `"az1-ag"/"az2-ag"`, this command also, will create two Availability Zones called `"az1"/"az2"`. | By default, when a Host Aggregate is created with an Availability Zone, a metadata key called `"availability_zone=NAME_OF_AZ`" will be created.
 
-```text
+```
 # nova aggregate-create az1-ag az1
 +----+--------+-------------------+-------+-------------------------+
 | Id | Name   | Availability Zone | Hosts | Metadata                |
@@ -65,7 +65,7 @@ Let's start: \00/
 
 Add one or more compute nodes to Host Aggregates.
 
-```text
+```
 # nova aggregate-add-host 2 compute1az
 Host compute1az has been successfully added for aggregate 2 
 +----+--------+-------------------+--------------+-------------------------+
@@ -84,7 +84,7 @@ Host compute2az has been successfully added for aggregate 3
 
 Details about a Host Aggregate can be reviewed with:
 
-```text
+```
 # nova aggregate-details az1-ag
 +----+--------+-------------------+--------------+-------------------------+
 | Id | Name   | Availability Zone | Hosts        | Metadata                |
@@ -101,7 +101,7 @@ Details about a Host Aggregate can be reviewed with:
 
 List Availability Zones and check status.
 
-```text
+```
 # nova availability-zone-list
 +-----------------------+----------------------------------------+
 | Name                  | Status                                 |
@@ -123,7 +123,7 @@ List Availability Zones and check status.
 
 Other method you can use:
 
-```text
+```
 # nova service-list
 +----+------------------+--------------+----------+---------+-------+----------------------------+-----------------+
 | Id | Binary           | Host         | Zone     | Status  | State | Updated_at                 | Disabled Reason |
@@ -139,14 +139,14 @@ Other method you can use:
 
 Launch two instances using `"--availability-zone AZ`" option, you can even select the compute node to use, just use `"--availability-zone AZ:COMPUTE_NODE`".
 
-```text
+```
 # nova boot --flavor m1.tiny --image cirros --nic net-id=6d62149e-74d3-4e52-9813-53ad207309f4 --availability-zone az1 instanceaz1
 # nova boot --flavor m1.tiny --image cirros --nic net-id=6d62149e-74d3-4e52-9813-53ad207309f4 --availability-zone az2 instanceaz2
 ```
 
 Ensure the instances are running in the desired Availability Zone.
 
-```text
+```
 # nova show instanceaz1 | grep OS-EXT-AZ | awk '{print$2":"$4}'
 OS-EXT-AZ:availability_zone:az1
 # nova show instanceaz2 | grep OS-EXT-AZ | awk '{print$2":"$4}'
@@ -155,7 +155,7 @@ OS-EXT-AZ:availability_zone:az2
 
 List Glance images.
 
-```text
+```
 # glance image-list
 +--------------------------------------+----------+
 | ID                                   | Name     |
@@ -168,7 +168,7 @@ List Glance images.
 
 Update the images with custom properties, i use `"availability_zone"` because is the default meta parameter a Host Aggregate owns when is inside Availability Zones.
 
-```text
+```
 # glance image-update --property availability_zone=az1 a6540d72-dff7-4fb1-bc64-a8ea69e65178
 +-------------------+--------------------------------------+
 | Property          | Value                                |
@@ -215,25 +215,25 @@ Update the images with custom properties, i use `"availability_zone"` because is
 +-------------------+--------------------------------------+
 ```
 
-Boot two instances, now we use images with custom properties, those properties will map to Availability Zones\(you can use other type of parameters mapping to Host Aggregates characteristics\).
+Boot two instances, now we use images with custom properties, those properties will map to Availability Zones(you can use other type of parameters mapping to Host Aggregates characteristics).
 
-```text
+```
 # nova boot --flavor m1.tiny --image imageaz1 --nic net-id=6d62149e-74d3-4e52-9813-53ad207309f4 instanceimageaz1
 # nova boot --flavor m1.tiny --image imageaz2 --nic net-id=6d62149e-74d3-4e52-9813-53ad207309f4 instanceimageaz2
 ```
 
 Ensure the instances booted in the desired Availability Zone.
 
-```text
+```
 # nova show instanceimageaz1 | grep OS-EXT-AZ | awk '{print$2":"$4}'
 OS-EXT-AZ:availability_zone:az1
 # nova show instanceimageaz2 | grep OS-EXT-AZ | awk '{print$2":"$4}'
 OS-EXT-AZ:availability_zone:az2
 ```
 
-\| Other method to launch instances is with parameters in flavors. \| Create two flavors.
+\| Other method to launch instances is with parameters in flavors. | Create two flavors.
 
-```text
+```
 # nova flavor-create --is-public true flavoraz1 6 512 1 1
 +----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
 | ID | Name      | Memory_MB | Disk | Ephemeral | Swap | VCPUs | RXTX_Factor | Is_Public |
@@ -250,7 +250,7 @@ OS-EXT-AZ:availability_zone:az2
 
 Add metadata to a Host Aggregate with some characteristic property as can be fast HD or cheap HW.
 
-```text
+```
 # nova aggregate-set-metadata az1-ag fast=true
 Metadata has been successfully updated for aggregate 2.
 +----+--------+-------------------+--------------+--------------------------------------+
@@ -269,14 +269,14 @@ Metadata has been successfully updated for aggregate 3.
 
 Update the previous created flavors with the associated metadata key with the Host Aggregate.
 
-```text
+```
 # nova flavor-key flavoraz1 set  aggregate_instance_extra_specs:fast=true
 # nova flavor-key flavoraz2 set  aggregate_instance_extra_specs:cheap=true
 ```
 
 Ensure, the properties are properly created.
 
-```text
+```
 # nova flavor-show 7 | grep fast | awk '{print$4$5}'
 {"aggregate_instance_extra_specs:fast":"true"}
 # nova flavor-show 8 | grep cheap | awk '{print$4$5}'
@@ -287,34 +287,33 @@ By default, Nova Scheduler don't allow filtering by extra Specs inserted in flav
 
 First, ensure the following scheduler filters are allowed in Control nodes.
 
-```text
+```
 # egrep ^scheduler_default_filters /etc/nova/nova.conf 
 scheduler_default_filters=AggregateInstanceExtraSpecsFilter,RetryFilter,AvailabilityZoneFilter,RamFilter,ComputeFilter,ComputeCapabilitiesFilter,ImagePropertiesFilter,ServerGroupAntiAffinityFilter,ServerGroupAffinityFilter
 ```
 
 If a change has been done in nova.conf file, restart nova services
 
-```text
+```
 # openstack-service restart nova
 ```
 
 Boot another two instances, now using custom flavors
 
-```text
+```
 # nova boot --flavor flavoraz1 --image cirros --nic net-id=6d62149e-74d3-4e52-9813-53ad207309f4 instanceflavoraz1
 # nova boot --flavor flavoraz2 --image cirros --nic net-id=6d62149e-74d3-4e52-9813-53ad207309f4 instanceflavoraz2
 ```
 
 Check where the instances are running.
 
-```text
+```
 # nova show instanceflavoraz1 | grep OS-EXT-AZ | awk '{print$2":"$4}'
 OS-EXT-AZ:availability_zone:az1
 # nova show instanceflavoraz2 | grep OS-EXT-AZ | awk '{print$2":"$4}'
 OS-EXT-AZ:availability_zone:az2
 ```
 
-That's all for now \| Hope this guide helps.
+That's all for now | Hope this guide helps.
 
 Regards
-

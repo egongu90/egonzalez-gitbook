@@ -1,12 +1,12 @@
 # Ceph Ansible baremetal deployment
 
-How many times you tried to install Ceph? How many fails with no reason? 
+How many times you tried to install Ceph? How many fails with no reason?&#x20;
 
-All Ceph operator should agree with me when i say that Ceph installer doesn't really works as expected so far. 
+All Ceph operator should agree with me when i say that Ceph installer doesn't really works as expected so far.&#x20;
 
 Yes, i'm talking about ceph-deploy and the main reason why i'm posting this guide about deploying Ceph with Ansible.
 
-At this post, i will show how to install a Ceph cluster with Ansible on baremetal servers. 
+At this post, i will show how to install a Ceph cluster with Ansible on baremetal servers.&#x20;
 
 My configuration is as follows:
 
@@ -16,7 +16,7 @@ My configuration is as follows:
 
 First, download Ceph-Ansible playbooks
 
-```text
+```
 git clone https://github.com/ceph/ceph-ansible/
 Cloning into 'ceph-ansible'...
 remote: Counting objects: 5764, done.
@@ -29,24 +29,24 @@ Checking connectivity... done.
 
 Move to the newly created folder called ceph-ansible
 
-```text
+```
 cd ceph-ansible/
 ```
 
 Copy sample vars files, we will configure our environment in these variable files.
 
-```text
+```
 cp site.yml.sample site.yml
 cp group_vars/all.sample group_vars/all
 cp group_vars/mons.sample group_vars/mons
 cp group_vars/osds.sample group_vars/osds
 ```
 
-Next step is configure the inventory with our servers, i don\'t really like use /etc/ansible/host file, i prefer create a new file per environment inside playbook\'s folder.
+Next step is configure the inventory with our servers, i don\\'t really like use /etc/ansible/host file, i prefer create a new file per environment inside playbook\\'s folder.
 
 Create a file with the following content, use you own IPs to match your servers on the desired role inside the cluster
 
-```text
+```
 [root@ansible ~]# vi inventory_hosts
 
 [mons]
@@ -65,7 +65,7 @@ Create a file with the following content, use you own IPs to match your servers 
 
 Test connectivity to you servers pinging them through Ansible ping module
 
-```text
+```
 [root@ansible ~]# ansible -m ping -i inventory_hosts all
 192.168.1.48 | success >> {
     "changed": false,
@@ -103,9 +103,9 @@ Test connectivity to you servers pinging them through Ansible ping module
 }
 ```
 
-Edit site.yml file, i will remove/comment mds nodes since i\'m not going to use them.
+Edit site.yml file, i will remove/comment mds nodes since i\\'m not going to use them.
 
-```text
+```
 [root@ansible ~]# vi site.yml
 
 - hosts: mons
@@ -141,13 +141,13 @@ Edit site.yml file, i will remove/comment mds nodes since i\'m not going to use 
 
 Edit main variable file, here we are going to configure our environment
 
-```text
+```
 [root@ansible ~]# vi group_vars/all
 ```
 
 Here we configure from where ceph packages are going to be installed, for now we use upstream code with the stable release Infernalis.
 
-```text
+```
 ## Configure package origin
 ceph_origin: upstream
 ceph_stable: true
@@ -156,14 +156,14 @@ ceph_stable_release: infernalis
 
 Configure interface on which monitor will be listening
 
-```text
+```
 ## Monitor options
 monitor_interface: eth2
 ```
 
 Here we configure some OSD options, like journal size and what networks will be used by public and cluster data replication
 
-```text
+```
 ## OSD options
 journal_size: 1024
 public_network: 192.168.1.0/24
@@ -172,31 +172,31 @@ cluster_network: 192.168.200.0/24
 
 Edit osds variable file
 
-```text
+```
 [root@ansible ~]# vi group_vars/osds
 ```
 
 I will use auto discovery option to allow ceph ansible select empy or not used devices in my servers to create OSDs.
 
-```text
+```
 # Declare devices
 osd_auto_discovery: True
 journal_collocation: True
 ```
 
-\| Of course you can use other options, i\'ll highly suggest you to read variable comments, as they provide valuable information about usage. \| We\'re ready to deploy ceph with ansible with our custom inventory\_hosts file.
+\| Of course you can use other options, i\\'ll highly suggest you to read variable comments, as they provide valuable information about usage. | We\\'re ready to deploy ceph with ansible with our custom inventory\_hosts file.
 
-```text
+```
 [root@ansible ~]# ansible-playbook site.yml -i inventory_hosts
 ```
 
 After a while, you will have a fully functional ceph cluster.
 
-\| Maybe you find some issues or bugs when running the playbooks. \| There is a lot of efforts to fix issues on upstream repository. If a new bug is encountered, please, post a issue right here. \| [https://github.com/ceph/ceph-ansible/issues](https://github.com/ceph/ceph-ansible/issues)
+\| Maybe you find some issues or bugs when running the playbooks. | There is a lot of efforts to fix issues on upstream repository. If a new bug is encountered, please, post a issue right here. | [https://github.com/ceph/ceph-ansible/issues](https://github.com/ceph/ceph-ansible/issues)
 
 You can check your cluster status with ceph -s. we can see all OSDs are up and pgs active/clean.
 
-```text
+```
 [root@ceph-mon1 ~]# ceph -s
     cluster 5ff692ab-2150-41a4-8b6d-001a4da21c9c
      health HEALTH_OK
@@ -209,16 +209,16 @@ You can check your cluster status with ceph -s. we can see all OSDs are up and p
                   64 active+clean
 ```
 
-\| We are going to do some tests. \| Create a pool
+\| We are going to do some tests. | Create a pool
 
-```text
+```
 [root@ceph-mon1 ~]# ceph osd pool create test 128 128
 pool 'test' created
 ```
 
 Create a file big file
 
-```text
+```
 [root@ceph-mon1 ~]# dd if=/dev/zero of=/tmp/sample.txt bs=2M count=1000
 1000+0 records in
 1000+0 records out
@@ -227,20 +227,20 @@ Create a file big file
 
 Upload the file to rados
 
-```text
+```
 [root@ceph-mon1 ~]# rados -p test put sample /tmp/sample.txt 
 ```
 
 Check om which placement groups your file is saved
 
-```text
+```
 [root@ceph-mon1 ~]# ceph osd map test sample
 osdmap e13 pool 'test' (1) object 'sample' -> pg 1.bddbf0b9 (1.39) -> up ([1,0], p1) acting ([1,0], p1)
 ```
 
 Query the placement group where you file was uploaded, a similar output will prompts
 
-```text
+```
 [root@ceph-mon1 ~]# ceph pg 1.39 query
 {
     "state": "active+clean",
@@ -511,7 +511,6 @@ Query the placement group where you file was uploaded, a similar output will pro
 }
 ```
 
-That\'s all for now.
+That\\'s all for now.
 
- Regards, Eduardo Gonzalez
-
+&#x20;Regards, Eduardo Gonzalez

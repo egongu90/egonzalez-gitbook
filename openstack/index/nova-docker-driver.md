@@ -2,15 +2,15 @@
 
 Cloud computing has evolved too fast over the last years, currently is a totally different thing as the 5 years ago cloud, today is a common thing listening words like containers, instances, microservices, queue messages on linkedin, twitter, etc.
 
-OpenStack is not a lazy community, new capabilities are daily added to the OpenStack catalog reaching more users and business needs who are discovered at the several summits and meetups over the world. One of that needs is the capability to easy create and manage docker containers. 
+OpenStack is not a lazy community, new capabilities are daily added to the OpenStack catalog reaching more users and business needs who are discovered at the several summits and meetups over the world. One of that needs is the capability to easy create and manage docker containers.&#x20;
 
-Now we have two main methods, directly launching instances as containers from nova driver or with heat/kubernetes/messos. 
+Now we have two main methods, directly launching instances as containers from nova driver or with heat/kubernetes/messos.&#x20;
 
 The second method is the one with more followers, but there are some projects which are using nova driver as Solum, for this reason I'm going to show you how to configure docker as nova driver.
 
 The fist step is install docker on the compute nodes
 
-```text
+```
 curl -sSL https://get.docker.com/ | sh
 
 + sh -c 'sleep 3; yum -y -q install docker-engine'
@@ -32,19 +32,19 @@ Full path required for exclude: net:[4026532285].
 
 Add nova user to docker group, docker group will be created during docker installation
 
-```text
+```
 usermod -aG docker nova
 ```
 
 Start docker service
 
-```text
+```
 sudo systemctl start docker
 ```
 
 Test docker installation with the following command, a Hello from Docker message should be prompted
 
-```text
+```
 sudo docker run hello-world
 
 Unable to find image 'hello-world:latest' locally
@@ -60,65 +60,65 @@ This message shows that your installation appears to be working correctly.
 
 Once docker runs in a proper way, enable docker service at boot
 
-```text
+```
 sudo systemctl enable docker
 ln -s '/usr/lib/systemd/system/docker.service' '/etc/systemd/system/multi-user.target.wants/docker.service'
 ```
 
 Give docker socket the apropiate permissions
 
-```text
+```
 chmod 666  /var/run/docker.sock
 ```
 
 Restart nova-compute service
 
-```text
+```
 systemctl restart openstack-nova-compute
 ```
 
 Install git and pip if not present on the system
 
-```text
+```
 sudo yum install -y git
 sudo easy_install pip
 ```
 
 Clone docker driver for nova from OpenStack repositories
 
-```text
+```
 git clone -b stable/liberty https://github.com/openstack/nova-docker
 ```
 
 Install basic requirements
 
-```text
+```
 cd nova-docker
 sudo  pip install -r requirements.txt
 ```
 
 Install docker driver
 
-```text
+```
 python setup.py install
 ```
 
 Edit nova.conf and allow docker driver as compute driver
 
-```text
+```
 vi /etc/nova/nova.conf
 compute_driver=novadocker.virt.docker.DockerDriver
 ```
 
 Create the following directory
 
-```text
+```
 mkdir /etc/nova/rootwrap.d
 ```
 
 Create a file with the following content to allow setting networking in docker containers
 
-```text
+```
 vi /etc/nova/rootwrap.d/docker.filters
 
 [Filters]
@@ -128,20 +128,20 @@ ln: CommandFilter, /bin/ln, root
 
 Edit glance-api.conf and allow docker as container format
 
-```text
+```
 vi /etc/glance/glance-api.conf
 container_formats=ami,ari,aki,bare,ovf,ova,docker
 ```
 
 Restart glance-api to apply changes
 
-```text
+```
 systemctl restart openstack-glance-api
 ```
 
 Pull a docker image, i use hipache as testing image
 
-```text
+```
 docker pull hipache
 
 Using default tag: latest
@@ -166,7 +166,7 @@ Status: Downloaded newer image for hipache:latest
 
 Upload the image to glance
 
-```text
+```
 docker save hipache | openstack image create hipache --public --container-format docker --disk-format raw
 
 +------------------+------------------------------------------------------+
@@ -192,15 +192,15 @@ docker save hipache | openstack image create hipache --public --container-format
 +------------------+------------------------------------------------------+
 ```
 
-Once the image is active at glance, create a new instance, the instance won\'t be a KVM virtual machine, now will be a docker container
+Once the image is active at glance, create a new instance, the instance won\\'t be a KVM virtual machine, now will be a docker container
 
-```text
+```
 nova boot --flavor m1.tiny --image hipache --nic net-id=a1aa6336-9ae2-4ffb-99f5-1b6d1130989c --key-name mykey test1
 ```
 
 After a while, the instance should be in ACTIVE state
 
-```text
+```
 watch nova list
 +--------------------------------------+-------+--------+------------+-------------+-----------------------------+
 | ID                                   | Name  | Status | Task State | Power State | Networks                    |
@@ -209,7 +209,6 @@ watch nova list
 +--------------------------------------+-------+--------+------------+-------------+-----------------------------+
 ```
 
-If all the steps worked fine, you can use docker as nova backend. 
+If all the steps worked fine, you can use docker as nova backend.&#x20;
 
 Regards
-

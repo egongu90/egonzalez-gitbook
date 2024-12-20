@@ -4,79 +4,73 @@ This blog post will show Keystone upgrade procedure from OpenStack Newton to Oca
 
 In the case of doing this in production, please read release notes, ensure a proper configuration, do database backups and test the upgrade a thousand times.
 
-Keystone upgrade will need to stop one node in order to use it as upgrade server. \| In the case of a PoC this is not an issue, but in a production environment, Keystone loads may be intensive and stopping a node for a while may decrease other nodes performance more than expected. \| For this reason I prefer orchestrate the upgrade from an external Docker container. With this method all nodes will be fully running almost all the time.
+Keystone upgrade will need to stop one node in order to use it as upgrade server. | In the case of a PoC this is not an issue, but in a production environment, Keystone loads may be intensive and stopping a node for a while may decrease other nodes performance more than expected. | For this reason I prefer orchestrate the upgrade from an external Docker container. With this method all nodes will be fully running almost all the time.
 
-* New container won\'t start any service, just will sync the database
+*   New container won\\'t start any service, just will sync the database
 
-  schema with new Keystone version avoiding stop a node to orchestrate
+    schema with new Keystone version avoiding stop a node to orchestrate
 
-  the upgrade.
+    the upgrade.
+*   The Docker image is provided by OpenStack Kolla project, if already
 
-* The Docker image is provided by OpenStack Kolla project, if already
+    using Kolla this upgrade won\\'t be needed as kolla-ansible already
 
-  using Kolla this upgrade won\'t be needed as kolla-ansible already
+    provide an upgrade method.
+*   At the moment of writing of this blog, Ocata packages were not
 
-  provide an upgrade method.
+    released into stable repositories. For this reason I use DLRN
 
-* At the moment of writing of this blog, Ocata packages were not
+    repositories.
+*   If Ocata is released please do not use DLRN, use stable packages
 
-  released into stable repositories. For this reason I use DLRN
+    instead.
+*   Use stable Ocata Docker image if available with tag 4.0.x and will
 
-  repositories.
+    avoid repository configuration and package upgrades.
+*   NOTE: Upgrade may need more steps depending of your own
 
-* If Ocata is released please do not use DLRN, use stable packages
+    configuration, i.e, if using fernet token more steps are necessary
 
-  instead.
-
-* Use stable Ocata Docker image if available with tag 4.0.x and will
-
-  avoid repository configuration and package upgrades.
-
-* NOTE: Upgrade may need more steps depending of your own
-
-  configuration, i.e, if using fernet token more steps are necessary
-
-  during the upgrade.
-
+    during the upgrade.
 * All Keystone nodes are behind HAproxy.
 
 ### Prepare the upgrade
 
-Start Keystone Docker container with host networking \(needed to communicate with database nodes directly\) and root user \(needed to install packages\).
+Start Keystone Docker container with host networking (needed to communicate with database nodes directly) and root user (needed to install packages).
 
-```text
+```
 (host)# docker run -ti --net host -u 0 kolla/centos-binary-keystone:3.0.2 bash
 ```
 
 Download Delorean CentOS trunk repositories
 
-```text
+```
 (keystone-upgrade)# curl -Lo /etc/yum.repos.d/delorean.repo http://buildlogs.centos.org/centos/7/cloud/x86_64/rdo-trunk-master-tested/delorean.repo
 (keystone-upgrade)# curl -Lo /etc/yum.repos.d/delorean-deps.repo http://trunk.rdoproject.org/centos7/delorean-deps.repo
 ```
 
 Disable Newton repository
 
-```text
+```
 (keystone-upgrade)# yum-config-manager --disable centos-openstack-newton
 ```
 
 Ensure Newton repository is not longer used by the system
 
-```text
+```
 (keystone-upgrade)# yum repolist | grep -i openstack
 delorean                        delorean-openstack-glance-0bf9d805886c2  565+255
 ```
 
 Update all packages in the Docker container to bump keystone version to Ocata.
 
-```text
+```
 (keystone-upgrade)# yum clean all && yum update -y
 ```
 
-Configure keystone.conf file, this are my settings. Review you configuration and ensure all is correctly, otherwise may cause issues in the database. \| An important option is default\_domain\_id, this value is for backward compatible with users created under default domain.
+Configure keystone.conf file, this are my settings. Review you configuration and ensure all is correctly, otherwise may cause issues in the database. | An important option is default\_domain\_id, this value is for backward compatible with users created under default domain.
 
-```text
+```
 (keystone-upgrade)# egrep ^[^#] /etc/keystone/keystone.conf 
 [DEFAULT]
 debug = False
@@ -95,9 +89,9 @@ default_domain_id = default
 provider = uuid
 ```
 
-Check migrate version in the database. \| As you will notice, contract/data\_migrate/expand are in the same version
+Check migrate version in the database. | As you will notice, contract/data\_migrate/expand are in the same version
 
-```text
+```
 (mariadb)# mysql -ukeystone -pickvaHC9opkwbz8z8sy28aLiFNezc7Z6Fm34frcB -h192.168.100.10 keystone -e "select * from migrate_version;" 
 Warning: Using a password on the command line interface can be insecure.
 +-----------------------+--------------------------------------------------------------------------+---------+
@@ -110,37 +104,37 @@ Warning: Using a password on the command line interface can be insecure.
 +-----------------------+--------------------------------------------------------------------------+---------+
 ```
 
-Before start upgrading the database schema, you will need add SUPER privileges in the database to keystone user or set log\_bin\_trust\_function\_creators to True. \| In my opinion is safer set the value to True, I don\'t want keystone with SUPER privileges.
+Before start upgrading the database schema, you will need add SUPER privileges in the database to keystone user or set log\_bin\_trust\_function\_creators to True. | In my opinion is safer set the value to True, I don\\'t want keystone with SUPER privileges.
 
-```text
+```
 (mariadb)# mysql -uroot -pnkLMrBibfMTRqOGBAP3UAxdO4kOFfEaPptGM5UDL -h192.168.100.10 keystone -e "set global log_bin_trust_function_creators=1;"
 ```
 
-Now use Rally, tempest or some tool to test/benchmarch keystone service during upgrade. \| If don\'t want to use one of those tools, just use this for command.
+Now use Rally, tempest or some tool to test/benchmarch keystone service during upgrade. | If don\\'t want to use one of those tools, just use this for command.
 
-```text
+```
 (host)# for i in {1000..6000} ; do openstack user create --password $i $i; done
 ```
 
 ### Start Upgrade
 
-Check database status before upgrade using Doctor, this may raise issues in the configuration. Some of them may be ignored\(Please, ensure is not an issue before ignoring\). As example, I'm not using fernet tokens and errors appear about missing folder.
+Check database status before upgrade using Doctor, this may raise issues in the configuration. Some of them may be ignored(Please, ensure is not an issue before ignoring). As example, I'm not using fernet tokens and errors appear about missing folder.
 
-```text
+```
 (keystone-upgrade)# keystone-manage doctor
 ```
 
 Remove obsoleted tokens
 
-```text
+```
 (keystone-upgrade)# keystone-manage token_flush
 ```
 
-Now, expand the database schema to latest version, in keystone.log can see the status. 
+Now, expand the database schema to latest version, in keystone.log can see the status.&#x20;
 
 Check in the logs if some error is raised before jump to the next step.
 
-```text
+```
 (keystone-upgrade)# keystone-manage db_sync --expand
 
 
@@ -164,11 +158,11 @@ Check in the logs if some error is raised before jump to the next step.
 2017-01-31 13:42:11.560 306 INFO migrate.versioning.api [-] done
 ```
 
-After expand the database, migrate it to latest version. 
+After expand the database, migrate it to latest version.&#x20;
 
 Ensure there are not errors in Keystone logs.
 
-```text
+```
 (keystone-upgrade)# keystone-manage db_sync --migrate
 
 #keystone.log
@@ -194,7 +188,7 @@ Ensure there are not errors in Keystone logs.
 
 Now, see migrate\_version table, you will notice that expand and data\_migrate are in the latest version, but contract still in the previous version.
 
-```text
+```
 (mariadb)# mysql -ukeystone -pickvaHC9opkwbz8z8sy28aLiFNezc7Z6Fm34frcB -h192.168.100.10 keystone -e "select * from migrate_version;"
 +-----------------------+--------------------------------------------------------------------------+---------+
 | repository_id         | repository_path                                                          | version |
@@ -208,27 +202,27 @@ Now, see migrate\_version table, you will notice that expand and data\_migrate a
 
 ### Every Keystone node, one by one
 
-Go to keystone nodes. 
+Go to keystone nodes.&#x20;
 
 Stop Keystone services, in my case using wsgi inside Apache
 
-```text
+```
 (keystone_nodes)# systemctl stop httpd
 ```
 
 Configure Ocata repositories as made in the Docker container.
 
-Update packages, if you have Keystone sharing the node with other OpenStack service, do not update all packages as it will break other services. 
+Update packages, if you have Keystone sharing the node with other OpenStack service, do not update all packages as it will break other services.&#x20;
 
 Update only required packages.
 
-```text
+```
 (keystone_nodes)# yum clean all && yum update -y
 ```
 
 Configure Keystone configuration file to the desired state. Your configuration may change.
 
-```text
+```
 (keystone_nodes)# egrep ^[^#] /etc/keystone/keystone.conf 
 [DEFAULT]
 debug = False
@@ -249,19 +243,19 @@ provider = uuid
 
 Start Keystone service.
 
-```text
+```
 (keystone_nodes)# systemctl start httpd
 ```
 
 ### Finish Upgrade
 
-After all the nodes are updated to latest version \(please ensure all nodes are using latest packages, if not will fail\). 
+After all the nodes are updated to latest version (please ensure all nodes are using latest packages, if not will fail).&#x20;
 
 Contract Keystone database schema.
 
- Look at keystone.log for errors.
+&#x20;Look at keystone.log for errors.
 
-```text
+```
 (keystone-upgrade)# keystone-manage db_sync --contract
 
 keystone.log
@@ -286,11 +280,11 @@ keystone.log
 2017-01-31 13:57:59.529 322 INFO migrate.versioning.api [-] done
 ```
 
-Now if we look at migrate\_version table, will see that contract version is latest and match with the other version \(Ensure all are in the same version\). 
+Now if we look at migrate\_version table, will see that contract version is latest and match with the other version (Ensure all are in the same version).&#x20;
 
 This means the database upgrade has been successfully implemented.
 
-```text
+```
 (mariadb)# mysql -ukeystone -pickvaHC9opkwbz8z8sy28aLiFNezc7Z6Fm34frcB -h192.168.100.10 keystone -e "select * from migrate_version;"
 +-----------------------+--------------------------------------------------------------------------+---------+
 | repository_id         | repository_path                                                          | version |
@@ -304,7 +298,7 @@ This means the database upgrade has been successfully implemented.
 
 Remove log\_bin\_trust\_function\_creators value.
 
-```text
+```
 (mariadb)# mysql -uroot -pnkLMrBibfMTRqOGBAP3UAxdO4kOFfEaPptGM5UDL -h192.168.100.10 keystone -e "set global log_bin_trust_function_creators=0;"
 ```
 
@@ -312,7 +306,6 @@ After finish the upgrade, Rally tests should not have any error.
 
 \*\*If using HAproxy for load balance Keystone service, some errors may happen due a connection drop while stopping Keystone service and re-balance to other Keystone node. This can be avoided putting the node to update in Maintenance Mode in HAproxy backend.
 
-Have to thank Keystone team in \#openstack-keystone IRC channel for the help provided with a couple of issues.
+Have to thank Keystone team in #openstack-keystone IRC channel for the help provided with a couple of issues.
 
 Regards, Eduardo Gonzalez
-
