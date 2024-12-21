@@ -26,6 +26,7 @@
   * [Spacewalk Red Hat Satellite v5 in a Docker container PoC](devsecops/index/spacewalk-red-hat-satellite-v5-in-a-docker-container-poc.md)
   * [Ansible INI file module](devsecops/index/ansible-ini-file-module.md)
   * [DRAFT: Gerrit review minikube](devsecops/index/draft-gerrit-review-minikube.md)
+  * [DRAFT: Gerrit and gitlab integration on k8s](devsecops/index/draft-gerrit-and-gitlab-integration-on-k8s.md)
 
 ## OpenStack
 
