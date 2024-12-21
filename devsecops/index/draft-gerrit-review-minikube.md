@@ -55,7 +55,7 @@ Create gerrit-ingress.yaml file to generate an ingress to the Web UI.
 Host IP is the output of minikube ip command
 
 ```yaml
-cat << EOF > gerrit-ingress.yml
+cat << EOF > gerrit-ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
