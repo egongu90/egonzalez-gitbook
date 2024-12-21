@@ -55,13 +55,14 @@ Create gerrit-ingress.yaml file to generate an ingress to the Web UI.
 Host IP is the output of minikube ip command
 
 ```yaml
+cat << EOF > gerrit-ingress.yml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: gerrit-ingress
 spec:
   rules:
-    - host: "gerrit.192.168.39.72.nip.io"
+    - host: "gerrit.$(minikube ip).nip.io"
       http:
         paths:
           - path: /
@@ -71,7 +72,7 @@ spec:
                 name: gerrit-service
                 port:
                   number: 80
-
+EOF
 ```
 
 Create the ingress
