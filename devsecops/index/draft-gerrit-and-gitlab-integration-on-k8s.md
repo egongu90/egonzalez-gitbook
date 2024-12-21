@@ -85,3 +85,9 @@ Configure remote if http errors
      url = http://admin@gerrit.192.168.39.219.nip.io/a/testrepo$
      fetch = +refs/heads/*:refs/remotes/origin/*$
 ```
+
+Replication logs
+
+```
+kubectl exec -n gerrit gerrit-0 -- tail -f -n100 /var/gerrit/logs/replication_log
+```
