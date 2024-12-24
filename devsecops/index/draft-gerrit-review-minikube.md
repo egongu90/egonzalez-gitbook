@@ -80,3 +80,24 @@ Create the ingress
 ```
  kubectl apply -f gerrit-ingress.yaml -n gerrit
 ```
+
+Create IngressRouteTcp to allow git through SSH
+
+```
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  labels:
+    app: gerrit-service
+  name: gerrit-service
+  namespace: gerrit
+spec:
+  entryPoints:
+  - gerrit-service
+  routes:
+  - match: HostSNI(`*`)
+    services:
+    - name: gerrit-service
+      namespace: gerrit
+      port: 29418
+```
