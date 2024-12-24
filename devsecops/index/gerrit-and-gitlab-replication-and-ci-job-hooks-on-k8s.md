@@ -1,8 +1,8 @@
-# Gerrit and gitlab replication on k8s
+# Gerrit and gitlab replication and CI job hooks on k8s
 
 Create repos at both gitlab and gerrit
 
-Generate a token (admin) in gitlab
+Generate a token (admin) in gitlab (not sure if this is needed at all since the hook is with a different token)
 
 Create secret for gerrit replication
 
@@ -106,3 +106,57 @@ Replication logs
 kubectl exec -n gerrit gerrit-0 -- tail -f -n100 /var/gerrit/logs/replication_log
 ```
 
+For the hooks to work firsts create a secret with the code of the hooks, here is an example of the hook with curl. Do any language you want.
+
+Get the token at `https://gitlab.192.168.39.102.nip.io/root/test/-/settings/ci_cd#js-pipeline-triggers`
+
+```
+cat hook.txt
+#!/bin/sh
+curl -k -s -X POST --fail \
+-F token=glptt-f56abb7c111f3a12cb832676170594397fcddd40 \
+-F ref=main https://gitlab.192.168.39.102.nip.io/api/v4/projects/1/trigger/pipeline
+```
+
+Base64 the script
+
+```
+cat hook.txt | base64 ; echo
+```
+
+Copy contents of the base64 encoded object and place it into a secret, name should match one of the gerrit supported hooks name, in this case comment-added, change-merged or all the supported hooks you want to add
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name:  hooks
+  namespace: gerrit
+  labels:
+    app: gerrit
+data:
+  comment-added: |
+      IyEvYmluL3NoCmN1cmwgLWsgLXMgLVggUE9TVCAtLWZhaWwgLUYgdG9rZW49Z2xwdHQtZjU2YWJiN2MxMTFmM2ExMmNiODMyNjc2MTcwNTk0Mzk3ZmNkZGQ0MCAtRiByZWY9bWFpbiBodHRwczovL2dpdGxhYi4xOTIuMTY4LjM5LjEwMi5uaXAuaW8vYXBpL3Y0L3Byb2plY3RzLzEvdHJpZ2dlci9waXBlbGluZQo=
+type: Opaque
+```
+
+Apply the secret and configure the cluster yaml definition.
+
+Add a new plugin with the hooks
+
+<pre class="language-yaml"><code class="lang-yaml"><strong>- name: hooks
+</strong>  data:
+    secretRef: hooks
+    executable: true
+</code></pre>
+
+Add into gerrit.config the hook path
+
+```ini
+[hooks]
+  path = /var/mnt/data/hooks
+```
+
+Apply the cluster change, wait for the pod to spawn and test the integration adding a comment in the gerrit review patch.
+
+In gitlab a new pipeline will be triggered

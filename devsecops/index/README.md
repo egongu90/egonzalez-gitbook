@@ -10,8 +10,8 @@ This section contains Docker, Ansible and DevOps related posts
 [gerrit-review-minikube.md](gerrit-review-minikube.md)
 {% endcontent-ref %}
 
-{% content-ref url="gerrit-and-gitlab-replication-on-k8s.md" %}
-[gerrit-and-gitlab-replication-on-k8s.md](gerrit-and-gitlab-replication-on-k8s.md)
+{% content-ref url="gerrit-and-gitlab-replication-and-ci-job-hooks-on-k8s.md" %}
+[gerrit-and-gitlab-replication-and-ci-job-hooks-on-k8s.md](gerrit-and-gitlab-replication-and-ci-job-hooks-on-k8s.md)
 {% endcontent-ref %}
 
 {% content-ref url="opendaylight-in-a-docker.md" %}
