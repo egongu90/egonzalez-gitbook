@@ -25,10 +25,12 @@ Install Gitlab Helm charts
 ```
 helm dependency update
 helm upgrade --install gitlab . \
-  --timeout 600s \
-  --set global.hosts.domain=$(minikube ip).nip.io \
-  --set global.hosts.externalIP=$(minikube ip) \
-  -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml
+--timeout 600s \
+--set global.ingress.provider=traefik \
+--set certmanager-issuer.email=me@localhost \
+--set global.hosts.domain=$(minikube ip).nip.io \
+--set global.hosts.externalIP=$(minikube ip) \
+-f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube.yaml
 ```
 
 Installation may take for a while, if not too much resources some pods will be restarting a couple of times. Wait until the webserver is running at gitlab main page `https://$(minikube ip)`
