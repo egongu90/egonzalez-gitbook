@@ -1,4 +1,4 @@
-# DRAFT: Gerrit and gitlab integration on k8s
+# Gerrit and gitlab replication on k8s
 
 Create repos at both gitlab and gerrit
 
@@ -86,8 +86,23 @@ Configure remote if http errors
      fetch = +refs/heads/*:refs/remotes/origin/*$
 ```
 
+WIP: Configure ssh key to gerrit push to gitlab (NOTE: pass ssh config as volume)
+
+```
+kubectl exec -n gerrit gerrit-0 -- /bin/sh -c 'echo "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+...
+hKtHHsTTdhvlQDAAAAHnJvY2t5QG5zMzEwMzc2NC5pcC01NC0zNy04NC5ldQECAwQ=
+-----END OPENSSH PRIVATE KEY-----" > /home/gerrit/.ssh/id_rsa'
+```
+
+```
+kubectl exec -n gerrit gerrit-0 -- /bin/sh -c "echo 'StrictHostKeyChecking no' > /home/gerrit/.ssh/config"
+```
+
 Replication logs
 
 ```
 kubectl exec -n gerrit gerrit-0 -- tail -f -n100 /var/gerrit/logs/replication_log
 ```
+
