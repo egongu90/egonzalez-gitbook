@@ -83,7 +83,7 @@ Create the ingress
 
 Create IngressRouteTcp to allow git through SSH
 
-```
+```yaml
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRouteTCP
 metadata:
