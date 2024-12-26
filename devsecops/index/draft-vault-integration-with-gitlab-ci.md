@@ -264,6 +264,7 @@ demo-job-with-secrets:
   secrets:
     STAGING_DB_PASSWORD:
       vault: project/demo/password@secret
+      file: false
   script:
     - echo $STAGING_DB_PASSWORD > test.txt
     - cat test.txt
