@@ -27,6 +27,7 @@
   * [To conditional or to skip, that's the Ansible question](devsecops/index/to-conditional-or-to-skip-thats-the-ansible-question.md)
   * [Spacewalk Red Hat Satellite v5 in a Docker container PoC](devsecops/index/spacewalk-red-hat-satellite-v5-in-a-docker-container-poc.md)
   * [Ansible INI file module](devsecops/index/ansible-ini-file-module.md)
+  * [DRAFT: Vault integration with gitlab CI](devsecops/index/draft-vault-integration-with-gitlab-ci.md)
 
 ## OpenStack
 

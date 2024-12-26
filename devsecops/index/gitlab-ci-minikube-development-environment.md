@@ -1,3 +1,7 @@
+---
+description: Gitlab installation on minikube for CI testing
+---
+
 # Gitlab CI minikube development environment
 
 Install minikube
@@ -13,18 +17,18 @@ Create minikube machine
 minikube start --cpus 4 --memory 8192 --addons ingress
 ```
 
-Download gitlab helm charts repository
+Install gitlab helm repository
 
 ```
-git clone https://gitlab.com/gitlab-org/charts/gitlab.git
-cd gitlab
+helm repo add gitlab https://charts.gitlab.io
+helm repo update
 ```
 
 Install Gitlab Helm charts
 
 ```
 helm dependency update
-helm upgrade --install gitlab . \
+helm upgrade --install gitlab gitlab/gitlab \
 --timeout 600s \
 --set global.ingress.provider=traefik \
 --set certmanager-issuer.email=me@localhost \
@@ -41,12 +45,9 @@ Default login user is `root` and password can be get with the following command
 kubectl get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo
 ```
 
-Install gitlab helm repository
+### Gitlab runner
 
-```
-helm repo add gitlab https://charts.gitlab.io
-helm repo update
-```
+With the default gitlab helm chart a runner is already installed, but if you wish to add more runners or used a custom values follow the following steps.
 
 Generate `values.yml` with gitlab runner contents.
 

@@ -1,4 +1,8 @@
-# DRAFT: Gerrit review minikube
+---
+description: Deploy gerrit on kubernetes
+---
+
+# Gerrit review minikube
 
 Download git repository with helm charts
 

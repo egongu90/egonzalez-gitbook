@@ -1,3 +1,7 @@
+---
+description: Integrate gitlab and gerrit replication and execute CI pipelines
+---
+
 # Gerrit and gitlab replication and CI job hooks on k8s
 
 Create repos at both gitlab and gerrit
