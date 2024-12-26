@@ -2,7 +2,9 @@
 description: Vault integration with Gitalb CI to retrieve secrets in job pipelines
 ---
 
-# DRAFT: Vault integration with gitlab CI
+# Vault integration with Gitlab CI
+
+Installation is done in kubernetes, if already have gitlab and vault running ignore helm and kubectl steps.
 
 Install consul helm (optional if doing allinone with minikube)
 
