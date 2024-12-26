@@ -23,11 +23,11 @@
   * [Gitlab CI minikube development environment](devsecops/index/gitlab-ci-minikube-development-environment.md)
   * [Gerrit review minikube](devsecops/index/gerrit-review-minikube.md)
   * [Gerrit and gitlab replication and CI job hooks on k8s](devsecops/index/gerrit-and-gitlab-replication-and-ci-job-hooks-on-k8s.md)
+  * [Vault integration with Gitlab CI](devsecops/index/draft-vault-integration-with-gitlab-ci.md)
   * [OpenDaylight in a Docker](devsecops/index/opendaylight-in-a-docker.md)
   * [To conditional or to skip, that's the Ansible question](devsecops/index/to-conditional-or-to-skip-thats-the-ansible-question.md)
   * [Spacewalk Red Hat Satellite v5 in a Docker container PoC](devsecops/index/spacewalk-red-hat-satellite-v5-in-a-docker-container-poc.md)
   * [Ansible INI file module](devsecops/index/ansible-ini-file-module.md)
-  * [Vault integration with Gitlab CI](devsecops/index/draft-vault-integration-with-gitlab-ci.md)
 
 ## OpenStack
 
