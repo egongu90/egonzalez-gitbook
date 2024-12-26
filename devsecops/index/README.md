@@ -14,6 +14,10 @@ This section contains Docker, Ansible and DevOps related posts
 [gerrit-and-gitlab-replication-and-ci-job-hooks-on-k8s.md](gerrit-and-gitlab-replication-and-ci-job-hooks-on-k8s.md)
 {% endcontent-ref %}
 
+{% content-ref url="vault-integration-with-gitlab-ci.md" %}
+[vault-integration-with-gitlab-ci.md](vault-integration-with-gitlab-ci.md)
+{% endcontent-ref %}
+
 {% content-ref url="opendaylight-in-a-docker.md" %}
 [opendaylight-in-a-docker.md](opendaylight-in-a-docker.md)
 {% endcontent-ref %}
