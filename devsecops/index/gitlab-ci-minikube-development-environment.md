@@ -24,6 +24,14 @@ helm repo add gitlab https://charts.gitlab.io
 helm repo update
 ```
 
+Optional install traefik for git clone through ssh
+
+```
+helm repo add traefik https://traefik.github.io/charts
+helm repo update
+helm install traefik traefik/traefik
+```
+
 Install Gitlab Helm charts
 
 ```
