@@ -278,3 +278,46 @@ $ echo $STAGING_DB_PASSWORD > test.txt
 $ cat test.txt
 [MASKED]
 ```
+
+### Policy template access secrets by gitlab group namespace
+
+Get accessor name for jwt in vault, may need to install jq or can regex with grep, awk, etc
+
+<pre><code><strong>export ACCESSOR_NAME=$(vault auth list -format=json | jq -r '."jwt/".accessor')
+</strong>auth_jwt_4d1d86e7
+</code></pre>
+
+Create a policy pointing the accessor name and namespace\_path
+
+```
+vault policy write by-project - <<EOF
+# Read-only permission on 'secret/data/<gitlab_namespace_name>/*' path
+
+path "secret/data/{{identity.entity.aliases.$ACCESSOR_NAME.metadata.namespace_path}}/*" {
+  capabilities = [ "read" ]
+}
+EOF
+```
+
+Role for the policy, note the claim mappings.
+
+```
+vault write auth/jwt/role/by-project - <<EOF
+{
+  "role_type": "jwt",
+  "policies": ["by-project"],
+  "token_explicit_max_ttl": 60,
+  "user_claim": "user_email",
+  "bound_audiences": [
+    "http://vault.192.168.39.66.nip.io"
+  ],
+  "claim_mappings": {
+    "namespace_path": "namespace_path"
+  }
+}
+EOF
+```
+
+Create x number of project, subprojects and groups. Test if they can access their secrets within their namespace\_name path.
+
+Note subgroups can only access secrets within its subgroup path
