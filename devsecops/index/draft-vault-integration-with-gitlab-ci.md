@@ -190,7 +190,7 @@ Generate jwt connection to gitlab
 ```
 vault write -tls-skip-verify auth/jwt/config \
     oidc_discovery_url="https://gitlab.192.168.39.66.nip.io" \
-    bound_issuer="gitlab.192.168.39.66.nip.io" \
+    bound_issuer="https://gitlab.192.168.39.66.nip.io" \
     oidc_discovery_ca_pem="$(cat gitlab.crt)" \
     jwks_ca_pem="$(cat ./gitlab.crt)"
 Success! Data written to: auth/jwt/config
