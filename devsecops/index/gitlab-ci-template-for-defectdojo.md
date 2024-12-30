@@ -127,7 +127,6 @@ sast-bandit:
   stage: test
   image: python:3.8-alpine
   before_script:
-    - apk add curl jq
     - pip install -U bandit
   script:
     - bandit -r . -f json --output gl-sast-report.json
