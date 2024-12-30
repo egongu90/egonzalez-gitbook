@@ -113,7 +113,7 @@ defectdojo-$[[ inputs.defectdojo_scan_type ]]:
         -F "push_to_jira=false" \
         -F "file=@$[[ inputs.defectdojo_file ]]" \
         -F "product_name=$[[ inputs.defectdojo_product_name ]]" \
-        -F "scan_date=$(date +%Y-%m-%d)" \
+        -F "scan_date=$TODAY" \
         -F "engagement=$DEFECTDOJO_ENGAGEMENT_ID" \
         -F "engagement_name=Pipeline #$CI_PIPELINE_ID"
 ```
