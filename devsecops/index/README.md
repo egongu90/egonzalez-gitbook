@@ -18,6 +18,10 @@ This section contains Docker, Ansible and DevOps related posts
 [draft-vault-integration-with-gitlab-ci.md](draft-vault-integration-with-gitlab-ci.md)
 {% endcontent-ref %}
 
+{% content-ref url="gitlab-ci-template-for-defectdojo.md" %}
+[gitlab-ci-template-for-defectdojo.md](gitlab-ci-template-for-defectdojo.md)
+{% endcontent-ref %}
+
 {% content-ref url="opendaylight-in-a-docker.md" %}
 [opendaylight-in-a-docker.md](opendaylight-in-a-docker.md)
 {% endcontent-ref %}
