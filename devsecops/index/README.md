@@ -26,6 +26,10 @@ This section contains Docker, Ansible and DevOps related posts
 [falco-real-time-runtime-thread-detection-on-k8s.md](falco-real-time-runtime-thread-detection-on-k8s.md)
 {% endcontent-ref %}
 
+{% content-ref url="owasp-dependency-track.md" %}
+[owasp-dependency-track.md](owasp-dependency-track.md)
+{% endcontent-ref %}
+
 {% content-ref url="opendaylight-in-a-docker.md" %}
 [opendaylight-in-a-docker.md](opendaylight-in-a-docker.md)
 {% endcontent-ref %}
