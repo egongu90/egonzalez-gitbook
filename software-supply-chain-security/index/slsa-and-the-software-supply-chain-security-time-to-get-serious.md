@@ -1,6 +1,6 @@
 ---
 cover: ../../.gitbook/assets/unnamed.png
-coverY: -103.27488855869242
+coverY: -432.4635958395245
 layout:
   cover:
     visible: true
