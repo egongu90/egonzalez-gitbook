@@ -1,6 +1,23 @@
-# SLSA and the Software Supply Chain Security: Time to Get Serious
+---
+cover: ../../.gitbook/assets/unnamed.png
+coverY: -103.27488855869242
+layout:
+  cover:
+    visible: true
+    size: full
+  title:
+    visible: true
+  description:
+    visible: true
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+---
 
-<figure><img src="../../.gitbook/assets/unnamed.png" alt="" width="384"><figcaption></figcaption></figure>
+# SLSA and the Software Supply Chain Security: Time to Get Serious
 
 The software supply chain is a disaster waiting to happen. SolarWinds got hit hard, Log4j blew up in everyone’s face, and dependencies keep turning into attack vectors. If you think your app’s safe because you’ve got basic defenses, think again—the real risk is in the pipeline that delivers your code. SLSA (Supply Chain Levels for Software Artifacts) is a framework to lock it down. Let’s dig into what it is and why it matters.
 
