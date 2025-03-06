@@ -17,7 +17,7 @@
       * [YAML](hacking/index/python-vulnerabilities/data-deserialization/yaml.md)
   * [Hacking cheatsheet](hacking/index/command-cheatsheet.md)
 
-## Software-Supply Chain Security
+## Software Supply Chain Security
 
 * [Index](software-supply-chain-security/index/README.md)
   * [SLSA and the Software Supply Chain Security: Time to Get Serious](software-supply-chain-security/index/slsa-and-the-software-supply-chain-security-time-to-get-serious.md)
