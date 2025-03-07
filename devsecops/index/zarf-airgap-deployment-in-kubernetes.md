@@ -1,4 +1,4 @@
-# Zarf - Airgap deployment of falco
+# Zarf - Airgap deployment in kubernetes
 
 > Zarf is a free and open-source tool that enables _**declarative creation & distribution of software into air-gapped/constrained/standalone environments**_.
 >
@@ -23,6 +23,8 @@ When init this will deploy a registry and a couple more pods into the destinatio
 zarf tools download-init
 zarf init --confirm
 ```
+
+In this guide we will deploy falco for real time threat detection in kuberentes, config files are an example. Adapt to your needs.
 
 Create a file `zarf.yaml` with the following data, images can be found with a command later on this guide
 
