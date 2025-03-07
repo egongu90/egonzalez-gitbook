@@ -31,7 +31,7 @@
   * [Vault integration with Gitlab CI](devsecops/index/draft-vault-integration-with-gitlab-ci.md)
   * [Gitlab CI template for DefectDojo](devsecops/index/gitlab-ci-template-for-defectdojo.md)
   * [Falco real time runtime thread detection on k8s](devsecops/index/falco-real-time-runtime-thread-detection-on-k8s.md)
-  * [Zarp - Airgap deployment of falco](devsecops/index/zarp-airgap-deployment-of-falco.md)
+  * [Zarf - Airgap deployment of falco](devsecops/index/zarf-airgap-deployment-of-falco.md)
   * [OWASP Dependency-track](devsecops/index/owasp-dependency-track.md)
   * [OpenDaylight in a Docker](devsecops/index/opendaylight-in-a-docker.md)
   * [To conditional or to skip, that's the Ansible question](devsecops/index/to-conditional-or-to-skip-thats-the-ansible-question.md)

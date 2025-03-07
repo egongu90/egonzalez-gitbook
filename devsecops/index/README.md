@@ -26,8 +26,8 @@ This section contains Docker, Ansible and DevOps related posts
 [falco-real-time-runtime-thread-detection-on-k8s.md](falco-real-time-runtime-thread-detection-on-k8s.md)
 {% endcontent-ref %}
 
-{% content-ref url="zarp-airgap-deployment-of-falco.md" %}
-[zarp-airgap-deployment-of-falco.md](zarp-airgap-deployment-of-falco.md)
+{% content-ref url="zarf-airgap-deployment-of-falco.md" %}
+[zarf-airgap-deployment-of-falco.md](zarf-airgap-deployment-of-falco.md)
 {% endcontent-ref %}
 
 {% content-ref url="owasp-dependency-track.md" %}

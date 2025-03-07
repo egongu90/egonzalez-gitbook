@@ -1,4 +1,4 @@
-# Zarp - Airgap deployment of falco
+# Zarf - Airgap deployment of falco
 
 > Zarf is a free and open-source tool that enables _**declarative creation & distribution of software into air-gapped/constrained/standalone environments**_.
 >
@@ -6,7 +6,7 @@
 
 
 
-Install Zarp CLI
+Install Zarf CLI
 
 ```sh
 ZARF_VERSION=$(curl -sIX HEAD https://github.com/zarf-dev/zarf/releases/latest | grep -i ^location: | grep -Eo 'v[0-9]+.[0-9]+.[0-9]+')
