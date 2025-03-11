@@ -2,6 +2,12 @@
 
 * [Welcome to egonzalez blog](README.md)
 
+## Software Supply Chain Security
+
+* [Software Supply Chain Security: Why It Matters](software-supply-chain-security/software-supply-chain-security-why-it-matters.md)
+* [Software Supply Chain Security: A Technical Deep Dive](software-supply-chain-security/software-supply-chain-security-a-technical-deep-dive.md)
+* [SLSA and the Software Supply Chain Security: Time to Get Serious](software-supply-chain-security/slsa-and-the-software-supply-chain-security-time-to-get-serious.md)
+
 ## Hacking
 
 * [Index](hacking/index/README.md)
@@ -16,12 +22,6 @@
       * [XML](hacking/index/python-vulnerabilities/data-deserialization/xml.md)
       * [YAML](hacking/index/python-vulnerabilities/data-deserialization/yaml.md)
   * [Hacking cheatsheet](hacking/index/command-cheatsheet.md)
-
-## Software Supply Chain Security
-
-* [Software Supply Chain Security: Why It Matters](software-supply-chain-security/software-supply-chain-security-why-it-matters.md)
-* [Software Supply Chain Security: A Technical Deep Dive](software-supply-chain-security/software-supply-chain-security-a-technical-deep-dive.md)
-* [SLSA and the Software Supply Chain Security: Time to Get Serious](software-supply-chain-security/slsa-and-the-software-supply-chain-security-time-to-get-serious.md)
 
 ## DevSecOps
 
