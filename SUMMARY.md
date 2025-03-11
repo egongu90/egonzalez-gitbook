@@ -20,8 +20,8 @@
 ## Software Supply Chain Security
 
 * [Index](software-supply-chain-security/index/README.md)
-  * [Software Supply Chain Security: A Technical Deep Dive](software-supply-chain-security/index/software-supply-chain-security-a-technical-deep-dive.md)
   * [Software Supply Chain Security: Why It Matters](software-supply-chain-security/index/software-supply-chain-security-why-it-matters.md)
+  * [Software Supply Chain Security: A Technical Deep Dive](software-supply-chain-security/index/software-supply-chain-security-a-technical-deep-dive.md)
   * [SLSA and the Software Supply Chain Security: Time to Get Serious](software-supply-chain-security/index/slsa-and-the-software-supply-chain-security-time-to-get-serious.md)
 
 ## DevSecOps
