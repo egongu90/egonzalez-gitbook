@@ -48,9 +48,7 @@ build_job:
     RUNNER_GENERATE_ARTIFACTS_METADATA: "true"
   stage: build
   script:
-    - echo "Building project..."
-    - npm install && npm run build
-
+    - python setup.py sdist
   artifacts:
     paths:
       - dist/
