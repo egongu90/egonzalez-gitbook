@@ -8,6 +8,11 @@
 * [Software Supply Chain Security: A Technical Deep Dive](software-supply-chain-security/software-supply-chain-security-a-technical-deep-dive.md)
 * [SLSA and the Software Supply Chain Security: Time to Get Serious](software-supply-chain-security/slsa-and-the-software-supply-chain-security-time-to-get-serious.md)
 
+***
+
+* [Provenance](provenance/README.md)
+  * [Understanding Provenance in Software Supply Chain Security](provenance/understanding-provenance-in-software-supply-chain-security.md)
+
 ## Hacking
 
 * [Index](hacking/index/README.md)
