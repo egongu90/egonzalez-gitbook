@@ -27,14 +27,15 @@ So, how do you "do" provenance? It’s not hard, but it takes planning. Here are
 2. **Use a Software Bill of Materials (SBOM)**   \
    An SBOM is a list of all the "ingredients" in your software. It’s like a recipe that says, “This app uses these libraries, this framework, and these tools.” In GitLab, add a CI/CD job to generate it with CycloneDX:
 
-<pre><code>sbom_generate:
+```
+sbom_generate:
   stage: build
   script:
     - cyclonedx-bom -o bom.xml
   artifacts:
-<strong>    paths:
-</strong>      - bom.xml
-</code></pre>
+    paths:
+      - bom.xml
+```
 
 3. **Sign Your Code**   \
    Use digital signatures to prove who created the software. A signature is like a seal—it shows the code hasn’t been changed by someone else. In GitLab, enable GPG signing in Settings > GPG Keys, then sign commits
