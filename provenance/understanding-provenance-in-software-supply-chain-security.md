@@ -1,12 +1,12 @@
 # Understanding Provenance in Software Supply Chain Security
 
-**What Is Provenance?**
+## **What Is Provenance?**
 
 Provenance is a record that tracks the origin and history of something. In the context of software supply chain security, it means knowing exactly where every piece of your software comes from. Think of it as a trail: it shows who wrote the code, what tools were used to build it, and what steps were taken to make the final product.
 
 Why does this matter? Software supply chains are complex. A single app might use code from many developers, libraries from the internet, and tools from different companies. If one part is insecure—like a library with hidden malware—it can put the whole software at risk. Provenance helps us check that every piece is safe and trustworthy.
 
-**Why Provenance Is Important for Security**
+## **Why Provenance Is Important for Security**
 
 Imagine you’re at a grocery store picking out food for dinner. You look at a pack of chicken. You want to know it’s fresh and safe to eat, right? So, you check the label—it tells you where the chicken came from, when it was packed, and maybe even the farm it was raised on. If the label is missing or looks suspicious, you might not trust it. What if it’s been sitting in a dirty warehouse for weeks? Or worse, what if someone tampered with it and added something harmful? Without that information, you’re taking a risk with every bite.
 
@@ -18,7 +18,7 @@ Provenance is the same for software—it’s the label that tells you the story 
 
 In short, provenance is your guarantee that the software won’t “poison” your system, much like a food label protects your health.
 
-**How to Implement Provenance in Software Supply Chain Security**
+## **How to Implement Provenance in Software Supply Chain Security**
 
 So, how do you "do" provenance? It’s not hard, but it takes planning. Here are some practical steps to get started:
 
@@ -61,7 +61,7 @@ When this job runs on a GitLab Runner (version 15.1 or higher), it produces a me
 6. **Store Provenance Securely**   \
    Keep your provenance records safe. GitLab stores the metadata file as an artifact automatically. You can also upload it to the **Package Registry** for long-term access or share it securely with your team.
 
-**SLSA: A Framework for Provenance**
+## **SLSA: A Framework for Provenance**
 
 SLSA, or **Supply Chain Levels for Software Artifacts**, is a special framework to make software supply chains safer. It was inspired by real-world attacks, like the SolarWinds hack, where bad code slipped into trusted software. SLSA uses levels (0 to 4) to show how secure a software’s supply chain is, and provenance is a key part.
 
@@ -75,7 +75,7 @@ Here’s how SLSA works with provenance:
 
 For example, in GitLab, you can aim for Level 1 by generating an SBOM and provenance file in your pipeline. For Level 2, use signed commits and a dedicated GitLab runner. SLSA makes provenance stronger, helping you fight supply chain attacks.
 
-**Challenges and Tips**
+## **Challenges and Tips**
 
 Implementing provenance isn’t always easy. Some challenges include:
 
@@ -85,7 +85,7 @@ Implementing provenance isn’t always easy. Some challenges include:
 
 To make it smoother, start small. Use provenance for new projects first, then add provenance to older ones. Work with your team to agree on tools and processes, and keep learning as you go.
 
-**Conclusion**
+## **Conclusion**
 
 Provenance is a key part of software supply chain security. It helps us know where our software comes from and ensures it’s safe to use. By documenting components, using SBOMs, signing code, and automaton, companies can protect their software from risks. With frameworks like SLSA, provenance gets even stronger, giving us clear rules to follow. In a world where cyber threats are growing, provenance is like a shield—it builds trust and keeps us secure.
 
