@@ -12,6 +12,7 @@
 
 * [Provenance](provenance/README.md)
   * [Understanding Provenance in Software Supply Chain Security](provenance/understanding-provenance-in-software-supply-chain-security.md)
+* [Building a secure development framework](building-a-secure-development-framework.md)
 
 ## Hacking
 
