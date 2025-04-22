@@ -14,8 +14,8 @@ This section contains Docker, Ansible and DevOps related posts
 [gerrit-and-gitlab-replication-and-ci-job-hooks-on-k8s.md](gerrit-and-gitlab-replication-and-ci-job-hooks-on-k8s.md)
 {% endcontent-ref %}
 
-{% content-ref url="draft-vault-integration-with-gitlab-ci.md" %}
-[draft-vault-integration-with-gitlab-ci.md](draft-vault-integration-with-gitlab-ci.md)
+{% content-ref url="vault-integration-with-gitlab-ci.md" %}
+[vault-integration-with-gitlab-ci.md](vault-integration-with-gitlab-ci.md)
 {% endcontent-ref %}
 
 {% content-ref url="gitlab-ci-template-for-defectdojo.md" %}

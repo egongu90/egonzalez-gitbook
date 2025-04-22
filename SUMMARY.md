@@ -35,7 +35,7 @@
   * [Gitlab CI minikube development environment](devsecops/index/gitlab-ci-minikube-development-environment.md)
   * [Gerrit review minikube](devsecops/index/gerrit-review-minikube.md)
   * [Gerrit and gitlab replication and CI job hooks on k8s](devsecops/index/gerrit-and-gitlab-replication-and-ci-job-hooks-on-k8s.md)
-  * [Vault integration with Gitlab CI](devsecops/index/draft-vault-integration-with-gitlab-ci.md)
+  * [Vault integration with Gitlab CI](devsecops/index/vault-integration-with-gitlab-ci.md)
   * [Gitlab CI template for DefectDojo](devsecops/index/gitlab-ci-template-for-defectdojo.md)
   * [Falco real time runtime thread detection on k8s](devsecops/index/falco-real-time-runtime-thread-detection-on-k8s.md)
   * [Zarf - Airgap deployment in kubernetes](devsecops/index/zarf-airgap-deployment-in-kubernetes.md)
